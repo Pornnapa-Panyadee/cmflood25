@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Mitr, Prompt } from "next/font/google"
 import { Footer } from "@/components/footer"
 import './globals.css'
+import { Navigation } from "@/components/navigation"
 
 export const metadata: Metadata = {
   title: 'CM Flood'
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="th">
       <body className={`${prompt.variable} ${mitr.variable} font-sans antialiased`}>
+        <Navigation />
         {children}
         <Footer />
       </body>

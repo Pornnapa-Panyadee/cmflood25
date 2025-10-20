@@ -20,7 +20,7 @@ const navItems = [
   },
   {
     title: "หลักระดับน้ำท่วม",
-    href: "/pole",
+    href: "/pole2025",
     icon: Flag,
   },
   {
@@ -44,7 +44,9 @@ export function Navigation() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <Droplets className="h-8 w-8 text-primary" />
-            <span className="text-xl font-semibold text-primary">CM Flood</span>
+           <Link href="/" className="text-xl font-semibold text-primary hover:underline">
+            CM Flood
+          </Link>
           </div>
           <div className="hidden md:block">
             <div className="flex items-center gap-1 text-primary">

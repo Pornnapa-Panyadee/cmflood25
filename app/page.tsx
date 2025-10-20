@@ -1,4 +1,3 @@
-import { Navigation } from "@/components/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
@@ -10,7 +9,6 @@ import Image from "next/image"
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Hero Section */}
@@ -22,16 +20,6 @@ export default function HomePage() {
             CMFlood : Urban Flood Warning Systems in Chiang Mai
           </p>
         </div>
-
-       {/* Info Section */}
-        {/* <Card className="mt-8 bg-muted/50">
-        
-          <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
-            <p>
-              เพื่อเตือนภัยน้ำท่วมพื้นที่เขตเมืองเชียงใหม่กรณีน้ำจากแม่น้ำปิงล้นตลิ่งเข้าท่วมพื้นที่ โดยมีเครื่องมือสนับสนุนการแจ้งเตือนภัยให้ประชาชนใช้ในการตอบสนองภัยน้ำท่วมได้อย่างทันท่วงที
-            </p>
-          </CardContent>
-        </Card> */}
 
         {/* Quick Stats */}
         <div className="mb-4 grid gap-20">
@@ -65,7 +53,7 @@ export default function HomePage() {
             </div>
             <CardContent>
               <Link href="/risk-map">
-                <Button className="w-full">ดูรายละเอียด</Button>
+                <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
           </Card>
@@ -82,7 +70,7 @@ export default function HomePage() {
             </div>
             <CardContent>
               <Link href="/risk-map">
-                <Button className="w-full">ดูรายละเอียด</Button>
+                <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
           </Card>
@@ -99,7 +87,7 @@ export default function HomePage() {
             </div>
             <CardContent>
               <Link href="/risk-map">
-                <Button className="w-full">ดูรายละเอียด</Button>
+                <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
           </Card>
@@ -116,7 +104,7 @@ export default function HomePage() {
             </div>
             <CardContent>
               <Link href="/risk-map">
-                <Button className="w-full">ดูรายละเอียด</Button>
+                <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
           </Card>
