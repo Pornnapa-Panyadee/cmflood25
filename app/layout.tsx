@@ -1,11 +1,24 @@
 import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
+import { Mitr, Prompt } from "next/font/google"
+import { Footer } from "@/components/footer"
 import './globals.css'
 
 export const metadata: Metadata = {
   title: 'CM Flood'
 }
+
+const mitr = Mitr({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin", "thai"],
+  variable: "--font-mitr",
+})
+
+const prompt = Prompt({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin", "thai"],
+  variable: "--font-prompt",
+})
+
 
 export default function RootLayout({
   children,
@@ -13,9 +26,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="th">
+      <body className={`${prompt.variable} ${mitr.variable} font-sans antialiased`}>
         {children}
+        <Footer />
       </body>
     </html>
   )

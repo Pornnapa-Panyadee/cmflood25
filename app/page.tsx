@@ -23,10 +23,18 @@ export default function HomePage() {
           </p>
         </div>
 
-       
+       {/* Info Section */}
+        {/* <Card className="mt-8 bg-muted/50">
+        
+          <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
+            <p>
+              เพื่อเตือนภัยน้ำท่วมพื้นที่เขตเมืองเชียงใหม่กรณีน้ำจากแม่น้ำปิงล้นตลิ่งเข้าท่วมพื้นที่ โดยมีเครื่องมือสนับสนุนการแจ้งเตือนภัยให้ประชาชนใช้ในการตอบสนองภัยน้ำท่วมได้อย่างทันท่วงที
+            </p>
+          </CardContent>
+        </Card> */}
 
         {/* Quick Stats */}
-        <div className="mb-3 grid gap-10">
+        <div className="mb-4 grid gap-20">
           <Card>
             <CardContent>
               <div className="flex items-baseline gap-2">
@@ -116,21 +124,7 @@ export default function HomePage() {
 
         </div>
 
-        {/* Info Section */}
-        <Card className="mt-8 bg-muted/50">
-          <CardHeader>
-            <CardTitle className="text-foreground">เกี่ยวกับระบบ</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
-            <p>
-              ระบบเตือนภัยน้ำท่วมเขตเมืองถูกพัฒนาขึ้นเพื่อช่วยให้ประชาชนสามารถติดตามสถานการณ์น้ำท่วมได้แบบเรียลไทม์
-              พร้อมทั้งรับการแจ้งเตือนล่วงหน้าเมื่อมีความเสี่ยงสูง
-            </p>
-            <p>
-              ระบบประกอบด้วยเครือข่ายเซ็นเซอร์วัดระดับน้ำที่กระจายอยู่ทั่วเขตเมือง ซึ่งส่งข้อมูลมายังศูนย์ควบคุมเพื่อวิเคราะห์และประมวลผลแบบอัตโนมัติ
-            </p>
-          </CardContent>
-        </Card>
+        
       </main>
     </div>
   )

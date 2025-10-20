@@ -5,13 +5,14 @@
 
 :root {
   /* Updated theme for flood warning system - using blue for water/safety, amber for warnings */
-  --background: oklch(0.99 0.005 240);
+  --background: oklch(99.107% 0.00011 271.152);
   --foreground: oklch(0.15 0.02 240);
   --card: oklch(1 0 0);
+  --card1: oklch(89.133% 0.04465 225.997);
   --card-foreground: oklch(0.15 0.02 240);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.15 0.02 240);
-  --primary: oklch(0.45 0.15 240);
+  --primary: oklch(51.902% 0.17151 259.872);
   --primary-foreground: oklch(0.99 0.005 240);
   --secondary: oklch(0.95 0.01 240);
   --secondary-foreground: oklch(0.15 0.02 240);
@@ -44,6 +45,7 @@
   --background: oklch(0.12 0.02 240);
   --foreground: oklch(0.95 0.01 240);
   --card: oklch(0.15 0.02 240);
+  --card1: oklch(76.962% 0.10186 227.842);
   --card-foreground: oklch(0.95 0.01 240);
   --popover: oklch(0.15 0.02 240);
   --popover-foreground: oklch(0.95 0.01 240);
@@ -83,6 +85,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-card1: var(--card1);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);

@@ -39,15 +39,15 @@ export function Navigation() {
   const pathname = usePathname()
 
   return (
-    <nav className="border-b border-border bg-card">
+    <nav className="border-b border-border bg-card1">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <Droplets className="h-8 w-8 text-primary" />
-            <span className="text-xl font-semibold text-foreground">CM Flood</span>
+            <span className="text-xl font-semibold text-primary">CM Flood</span>
           </div>
           <div className="hidden md:block">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 text-primary">
               {navItems.map((item) => {
                 const Icon = item.icon
                 const isActive = pathname === item.href
@@ -56,14 +56,27 @@ export function Navigation() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors",
+                      "flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors ",
                       isActive
                         ? "bg-primary text-primary-foreground"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                     )}
                   >
-                    <Icon className="h-4 w-4" />
-                    {item.title}
+                    <Icon
+                      className={cn(
+                        "h-4 w-4 transition-colors duration-200",
+                        isActive ? "text-primary-foreground" : "text-primary"
+                      )}
+                    />
+                    <span
+                      className={cn(
+                        isActive
+                          ? "text-primary-foreground" // 🔵 Active: ตัวหนังสือขาว
+                          : "text-primary" // 🩶 ปกติ + Hover: ตัวหนังสือน้ำเงินหลัก
+                      )}
+                    >
+                      {item.title}
+                    </span>
                   </Link>
                 )
               })}
@@ -73,7 +86,7 @@ export function Navigation() {
       </div>
       {/* Mobile Navigation */}
       <div className="md:hidden border-t border-border">
-        <div className="grid grid-cols-5 gap-1 p-2">
+        <div className="grid grid-cols-4 gap-1 p-2">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
@@ -88,8 +101,8 @@ export function Navigation() {
                     : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                 )}
               >
-                <Icon className="h-5 w-5" />
-                <span className="text-center leading-tight">{item.title}</span>
+                <Icon className="h-4 w-4 text-primary" />
+                <span className="text-center text-primary leading-tight">{item.title}</span>
               </Link>
             )
           })}
