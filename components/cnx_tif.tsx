@@ -221,7 +221,7 @@ export default function CnxTif() {
       }
 
       const overlays = {
-        "NN - Nearest Neighbor": nnData.rasterLayer,
+        // "NN - Nearest Neighbor": nnData.rasterLayer,
         "IDW - Inverse Distance Weighted": idwData.rasterLayer,
       }
 
@@ -230,9 +230,9 @@ export default function CnxTif() {
       if (roadLayer) infraLayers["🛣️ Road"] = roadLayer
       if (poleLayer) infraLayers["📍 Pole Points"] = poleLayer
 
-      nnData.rasterLayer.addTo(map)
-      L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map)
-      L.control.layers({}, infraLayers, { collapsed: false, position: "topright" }).addTo(map)
+      idwData.rasterLayer.addTo(map)
+      L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map)
+      L.control.layers({}, infraLayers, { collapsed: true, position: "topright" }).addTo(map)
 
       // ✅ เพิ่มหัวข้อ Interpolation ด้านบน overlay
       setTimeout(() => {

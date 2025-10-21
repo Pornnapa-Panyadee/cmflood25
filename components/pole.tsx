@@ -125,11 +125,11 @@ export default function CnxTif() {
 
   const overlays: Record<string, L.Layer> = {}
   if (poleLayer) {
-    overlays["ฝั่งตะวันตก"] = poleLayer
+    overlays["หลักเตือนระดับน้ำท่วมเขตเมือง"] = poleLayer
     poleLayer.addTo(map)
   }
   
-  L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map)
+  L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map)
 
 
     }
