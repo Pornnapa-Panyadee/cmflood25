@@ -25,7 +25,7 @@ const navItems = [
   },
   {
     title: "เครื่องหมายระดับน้ำท่วมเมืองเชียงใหม่",
-    href: "/floodmarks",
+    href: "/floodmark",
     icon: Ruler,
   },
   {

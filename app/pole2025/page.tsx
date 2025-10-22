@@ -200,7 +200,7 @@ export default function WaterDashboard() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                     <MapPin className="h-5 w-5" />
-                    แผนที่การประมาณค่าระดับน้ำเชิงพื้นที่
+                       หลักเตือนระดับน้ำท่วมเขตเมือง จังหวัดเชียงใหม่ (CM Flood Poles)
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -238,54 +238,54 @@ export default function WaterDashboard() {
               {/* ✅ DataTable */}
               <div className="w-[90%] max-w-6xl mx-auto">
                 <DataTable
-  columns={columns}
-  data={filteredData}
-  progressPending={pending}
-  pagination
-  paginationRowsPerPageOptions={[10, 25, 50, 100]}
-  highlightOnHover
-  striped
-  responsive
-  dense
-  paginationPerPage={10}
-  paginationComponentOptions={{
-    rowsPerPageText: "จำนวนแถวต่อหน้า:",
-    rangeSeparatorText: "จาก",
-  }}
-  customStyles={{
-    headCells: {
-      style: {
-        display: "flex",
-        justifyContent: "center",  // ✅ จัดแนวนอนกลาง
-        alignItems: "center",      // ✅ จัดแนวตั้งกลาง
-        textAlign: "center",
-        whiteSpace: "normal",      // ✅ อนุญาตขึ้นบรรทัดใหม่
-        wordBreak: "break-word",   // ✅ ตัดคำได้ถ้ายาวเกิน
-        lineHeight: "1.3rem",      // ✅ ระยะบรรทัดพอดี
-        fontWeight: "bold",
-        backgroundColor: "#ecf0f8ff",
-        fontSize: "15px",
-        minHeight: "55px",
-        padding: "8px 10px",
-        color: "#1e3a8a",
-      },
-    },
-    rows: {
-      style: {
-        minHeight: "55px",
-        fontSize: "15px",
-      },
-    },
-    cells: {
-      style: {
-        padding: "12px 16px",
-        fontSize: "15px",
-        justifyContent: "center",
-        alignItems: "center",
-      },
-    },
-  }}
-/>
+                columns={columns}
+                data={filteredData}
+                progressPending={pending}
+                pagination
+                paginationRowsPerPageOptions={[10, 25, 50, 100]}
+                highlightOnHover
+                striped
+                responsive
+                dense
+                paginationPerPage={10}
+                paginationComponentOptions={{
+                  rowsPerPageText: "จำนวนแถวต่อหน้า:",
+                  rangeSeparatorText: "จาก",
+                }}
+                customStyles={{
+                  headCells: {
+                    style: {
+                      display: "flex",
+                      justifyContent: "center",  // ✅ จัดแนวนอนกลาง
+                      alignItems: "center",      // ✅ จัดแนวตั้งกลาง
+                      textAlign: "center",
+                      whiteSpace: "normal",      // ✅ อนุญาตขึ้นบรรทัดใหม่
+                      wordBreak: "break-word",   // ✅ ตัดคำได้ถ้ายาวเกิน
+                      lineHeight: "1.3rem",      // ✅ ระยะบรรทัดพอดี
+                      fontWeight: "bold",
+                      backgroundColor: "#ecf0f8ff",
+                      fontSize: "15px",
+                      minHeight: "55px",
+                      padding: "8px 10px",
+                      color: "#1e3a8a",
+                    },
+                  },
+                  rows: {
+                    style: {
+                      minHeight: "55px",
+                      fontSize: "15px",
+                    },
+                  },
+                  cells: {
+                    style: {
+                      padding: "12px 16px",
+                      fontSize: "15px",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    },
+                  },
+                }}
+              />
 
               </div>
             </CardContent>
