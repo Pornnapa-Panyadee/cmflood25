@@ -22,13 +22,13 @@ export default function WaterDashboard() {
 
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-12 gap-6">
-          {/* 🗺️ แผนที่ (9 ส่วน) */}
+          {/* แผนที่ (9 ส่วน) */}
           <div className="col-span-12 md:col-span-9">
             <Card className="h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPin className="h-5 w-5" />
-                  แผนที่การประมาณค่าระดับน้ำเชิงพื้นที่
+                  แผนที่แสดงระดับความลึกของน้ำท่วมเชิงพื้นที่ (ระดับน้ำปิง P.1 = 5.3 ม.)
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -37,12 +37,12 @@ export default function WaterDashboard() {
             </Card>
           </div>
 
-          {/* 📘 วิธีใช้งาน (3 ส่วน) */}
+          {/* วิธีใช้งาน (3 ส่วน) */}
           <div className="col-span-12 md:col-span-3">
             <Card className="h-full border border-blue-100 shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-blue-700">
-                  แผนที่แสดงขอบเขตและระดับความลึกของน้ำท่วมในพื้นที่ 
+                  แผนที่แสดงขอบเขตและระดับความลึกของน้ำท่วมเชิงพื้นที่
                 </CardTitle>
               </CardHeader>
               <CardContent>

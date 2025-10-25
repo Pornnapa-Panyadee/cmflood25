@@ -73,8 +73,8 @@ export function Navigation() {
                     <span
                       className={cn(
                         isActive
-                          ? "text-primary-foreground" // 🔵 Active: ตัวหนังสือขาว
-                          : "text-primary" // 🩶 ปกติ + Hover: ตัวหนังสือน้ำเงินหลัก
+                          ? "text-primary-foreground" 
+                          : "text-primary" 
                       )}
                     >
                       {item.title}
@@ -104,7 +104,15 @@ export function Navigation() {
                 )}
               >
                 <Icon className="h-4 w-4 text-primary" />
-                <span className="text-center text-primary leading-tight">{item.title}</span>
+                <span
+                  className={cn(
+                    isActive
+                      ? "text-primary-foreground" 
+                      : "text-primary" 
+                  )}
+                >
+                  {item.title}
+                </span>
               </Link>
             )
           })}

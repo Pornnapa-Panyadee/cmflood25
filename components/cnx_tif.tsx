@@ -102,8 +102,14 @@ export default function CnxTif() {
               opacity: 0.6,
               fillOpacity: 1,
             }).bindPopup(
-              `📍 <b>${feature.properties?.name || "จุดตรวจวัด"}</b><br>` +
-                (feature.properties?.water_level ? `ระดับน้ำ: ${feature.properties.water_level} ซม.` : "")
+              `<div style="font-family: 'Prompt', sans-serif; line-height: 1.4;">
+                📍 <b>ตำแหน่งจุดวัด:</b> ${feature.properties.place_detail} <br>
+                <center>
+                  <span style="color: blue; font-size: 16px; font-weight: 500;">
+                    ระดับน้ำท่วม: ${feature.properties.water_level} ซม.
+                  </span>
+                </center>
+              </div>`
             ),
         }).addTo(map)
       } catch (err) {
@@ -215,20 +221,20 @@ export default function CnxTif() {
       // ✅ Layer Control
       // --------------------------------------------------
       const baseLayers = {
-        "🌑 Dark Matter": darkBase,
-        "🛰️ Google Satellite": googleSat,
-        "🏔️ Google Terrain": googleTerrain,
+        "Dark Matter": darkBase,
+        "Google Satellite": googleSat,
+        "Google Terrain": googleTerrain,
       }
 
       const overlays = {
         // "NN - Nearest Neighbor": nnData.rasterLayer,
-        "IDW - Inverse Distance Weighted": idwData.rasterLayer,
+        "แผนที่ระดับน้ำท่วม": idwData.rasterLayer,
       }
 
       const infraLayers: Record<string, L.Layer> = {}
-      if (pingRiver) infraLayers["🌊 River"] = pingRiver
-      if (roadLayer) infraLayers["🛣️ Road"] = roadLayer
-      if (poleLayer) infraLayers["📍 Pole Points"] = poleLayer
+      if (pingRiver) infraLayers["เส้นทางน้ำ"] = pingRiver
+      if (roadLayer) infraLayers["เส้นทางถนน"] = roadLayer
+      if (poleLayer) infraLayers["จุดระดับน้ำท่วม"] = poleLayer
 
       idwData.rasterLayer.addTo(map)
       L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map)
@@ -241,7 +247,7 @@ export default function CnxTif() {
         ) as HTMLElement
         if (overlayList) {
           const header = document.createElement("div")
-          header.innerHTML = `<strong style="display:block; margin-bottom:4px; color:#333;">📊 การประมาณค่าระดับน้ำเชิงพื้นที่</strong>`
+          header.innerHTML = `<strong style="display:block; margin-bottom:4px; color:#333;">การประมาณค่าระดับน้ำเชิงพื้นที่</strong>`
           overlayList.prepend(header)
         }
       }, 100)
@@ -266,14 +272,27 @@ export default function CnxTif() {
         grad.addColorStop(1, "#001133")
         ctx2.fillStyle = grad
         ctx2.fillRect(0, 0, 120, 12)
+
         div.innerHTML = `
-          <b>ระดับน้ำ (ซม.)</b><br/>
-          <img src="${canvas.toDataURL()}" width="120" height="12"/><br/>
-          <span style="font-size:10px">${globalMin.toFixed(2)} → ${globalMax.toFixed(2)}</span>
+          <div style="font-family: 'Prompt', sans-serif; font-size: 12px;">
+            <b>ระดับน้ำ (ซม.)</b><br/>
+            <img src="${canvas.toDataURL()}" width="120" height="8"/>
+            <div style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 10px;
+              color: #333;
+              margin-top: -2px;
+            ">
+              <span>0</span>
+              <span>280</span>
+            </div>
+          </div>
         `
         return div
       }
       legend.addTo(map)
+
 
       // --------------------------------------------------
       // ✅ Popup แสดงค่าจริง (จาก layer ที่เปิดอยู่)
@@ -298,9 +317,9 @@ export default function CnxTif() {
           L.popup()
             .setLatLng(e.latlng)
             .setContent(
-              `📊 <b>${activeLayer.label}</b><br/>ค่าระดับน้ำ: <b>${val.toFixed(
-                2
-              )}</b> ซม.`
+              `<div style="font-family: 'Prompt', sans-serif; line-height: 1.4;">
+                <b>ค่าระดับน้ำท่วม:</b> <span style="color: blue; font-size: 16px; font-weight: 500;">${val.toFixed(0)} ซม.</span>
+              </div>`
             )
             .openOn(map)
         }
