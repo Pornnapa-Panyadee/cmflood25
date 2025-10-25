@@ -74,6 +74,7 @@ export default function WaterDashboard() {
   },
   {
     name: <>โครงสร้างที่ทำ<br/>เครื่องหมาย</>,
+    width: "160px",
     selector: (row) => row.tool,
     sortable: true,
     cell: (row) => (

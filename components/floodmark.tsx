@@ -46,7 +46,7 @@ export default function CnxTif() {
       // ✅ โหลด GeoJSON จุด (Pole)
       // --------------------------------------------------
       try {
-        const poleRes = await fetch("/data/pole2.geojson")
+        const poleRes = await fetch("/data/pole.geojson")
         const poleData = await poleRes.json()
 
         // 🟢 ฟังก์ชันเลือก icon ตามระดับน้ำ
