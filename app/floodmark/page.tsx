@@ -168,46 +168,107 @@ export default function WaterDashboard() {
             {/* 📘 วิธีใช้งาน (3 ส่วน) */}
             <div className="col-span-12 md:col-span-2">
                 <Card className="h-full border border-blue-100 shadow-sm">
-                <CardHeader>
-                    <CardTitle className="flex flex-col items-center justify-center text-center text-blue-500 text-sm">
-                    เครื่องหมายระดับน้ำท่วม <br /> (Flood Mark)
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="list-disc list-inside space-y-2 text-sm text-gray-700">
-                        เพื่อการเตือนภัยสำหรับชุมชนในพื้นที่เสี่ยงภัย จำนวน 5,000 จุด ติดตั้งกระจายทั่วพื้นที่เคยเกิดน้ำท่วมในเขตเมือง จ.เชียงใหม่ และ จ.ลำพูน โดยแสดงระดับน้ำท่วมสูงสุดวัดจากผิวถนน โดยเปรียบเทียบกับค่าระดับน้ำของแม่น้ำปิงที่สถานี P.1 เชิงสะพานนวรัฐ ซึ่งเกิดน้ำท่วมใหญ่ในเดือนตุลาคม พ.ศ. 2567 โดยที่ P.1 = 5.30 เมตร (อ้างอิง : Hydrograph)
-                    </p>
-                    
-                </CardContent>
-                <CardContent>
-                    <div className="flex items-baseline gap-2 mt-[10px] mb-[40px]">
-                       <Image
-                          src="/images/floodmark/floodmark.jpg"
-                          alt="City flood map"
-                          width={1000}
-                          height={600}
-                          className="rounded-xl object-cover shadow-md w-full h-auto"
-                        />
+                  <CardHeader>
+                      <CardTitle className="flex flex-col items-center justify-center text-center text-blue-700 text-sm">
+                      เครื่องหมายระดับน้ำท่วม <br /> (Flood Mark)
+                      </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <div className="flex items-baseline gap-2 mt-[10px] mb-[40px]">
+                        <Image
+                            src="/images/floodmark/floodmark.jpg"
+                            alt="City flood map"
+                            width={1000}
+                            height={600}
+                            className="rounded-xl object-cover shadow-md w-full h-auto"
+                          />
+                      </div>
+                  </CardContent>
+                  <CardContent>
+                      <p className="list-disc list-inside space-y-2 text-sm text-gray-700">
+                          เพื่อการเตือนภัยสำหรับชุมชนในพื้นที่เสี่ยงภัย จำนวน 5,000 จุด ติดตั้งกระจายทั่วพื้นที่เคยเกิดน้ำท่วมในเขตเมือง จ.เชียงใหม่ และ จ.ลำพูน โดยแสดงระดับน้ำท่วมสูงสุดวัดจากผิวถนน โดยเปรียบเทียบกับค่าระดับน้ำของแม่น้ำปิงที่สถานี P.1 เชิงสะพานนวรัฐ ซึ่งเกิดน้ำท่วมใหญ่ในเดือนตุลาคม พ.ศ. 2567 โดยที่ P.1 = 5.30 เมตร (อ้างอิง : Hydrograph)
+                      </p>
+                      
+                  </CardContent>
+                  
+                  {/* <CardContent>
+                      <div className="flex items-baseline gap-2">
+                        <Image
+                            src="/images/floodmark/flood_ref1.png"
+                            alt="City flood map"
+                            width={1000}
+                            height={600}
+                            className="rounded-xl object-cover shadow-md w-full h-auto"
+                          />
+                      </div>
+                  </CardContent> */}
+                  <CardContent>
+                    <div className="flex flex-col items-center text-center mt-6 -mt-[20px]">
+                      <h3 className="text-base font-semibold text-blue-700 mb-6">
+                        สัญลักษณ์เครื่องหมายระดับน้ำท่วม
+                      </h3>
+                      <div className="bg-white rounded-xl shadow-md px-4 py-3 border border-gray-200 w-full">
+                        <div className="grid grid-cols-1 gap-3">
+                          <div className="flex items-center gap-3">
+                            <Image
+                              src="/images/floodmark/flood_green.png"
+                              alt="ต่ำมาก"
+                              width={30}
+                              height={30}
+                              className="object-contain"
+                            />
+                            <span className="text-sm text-gray-800">0 - 40 ซม.</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Image
+                              src="/images/floodmark/flood_yellow.png"
+                              alt="ปานกลาง"
+                              width={30}
+                              height={30}
+                              className="object-contain"
+                            />
+                            <span className="text-sm text-gray-800">41 - 80 ซม.</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Image
+                              src="/images/floodmark/flood_orange.png"
+                              alt="สูง"
+                              width={30}
+                              height={30}
+                              className="object-contain"
+                            />
+                            <span className="text-sm text-gray-800">81 - 120 ซม.</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Image
+                              src="/images/floodmark/flood_red.png"
+                              alt="รุนแรง"
+                              width={30}
+                              height={30}
+                              className="object-contain"
+                            />
+                            <span className="text-sm text-gray-800">121 - 160 ซม.</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Image
+                              src="/images/floodmark/flood_purple.png"
+                              alt="สูงมาก"
+                              width={30}
+                              height={30}
+                              className="object-contain"
+                            />
+                            <span className="text-sm text-gray-800">มากกว่า 161 ซม.</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                </CardContent>
-                <CardContent>
-                    <div className="flex items-baseline gap-2">
-                       <Image
-                          src="/images/floodmark/flood_ref1.png"
-                          alt="City flood map"
-                          width={1000}
-                          height={600}
-                          className="rounded-xl object-cover shadow-md w-full h-auto"
-                        />
-                    </div>
-                </CardContent>
-                
+                  </CardContent>
                 </Card>
             </div>
             
             {/* 🗺️ แผนที่ (9 ส่วน) */}
             <div className="col-span-12 md:col-span-10 ">
-                <Card className="h-full">
+              <Card className="h-full">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                     <MapPin className="h-5 w-5" />
@@ -220,7 +281,9 @@ export default function WaterDashboard() {
                 <CardContent>
                     <LeafletMap />
                 </CardContent>
-                </Card>
+                
+              </Card>
+                
             </div>
 
             

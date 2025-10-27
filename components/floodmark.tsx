@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import "leaflet/dist/leaflet.css"
-import { MapPin, BookImage } from "lucide-react"
+import { tr } from "date-fns/locale"
 
 export default function CnxTif() {
   const mapRef = useRef<L.Map | null>(null)
@@ -15,111 +15,135 @@ export default function CnxTif() {
       }
 
       const L = (await import("leaflet")).default
-
-      // 🗺️ พื้นหลัง
       const map = L.map("map", { center: [18.787563, 99.003968], zoom: 13 })
       mapRef.current = map
+
+      const googleRoad = L.tileLayer(
+        "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+        { maxZoom: 20, attribution: "&copy; Google Map" }
+      ).addTo(map)
 
       const googleSat = L.tileLayer(
         "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}&key=YOUR_API_KEY",
         { maxZoom: 20, attribution: "&copy; Google Satellite" }
       )
+
       const googleTerrain = L.tileLayer(
         "https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}&key=YOUR_API_KEY",
         { maxZoom: 20, attribution: "&copy; Google Terrain" }
       )
 
-      const googleRoad = L.tileLayer(
-        "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
-        { maxZoom: 20, attribution: "&copy; Google Map" }
-      )
-      
+      // 🟢 กำหนด icon ตามสี
+      const getFloodIcon = (level: number) => {
+        if (level <= 40) return "flood_green.png"
+        if (level <= 80) return "flood_yellow.png"
+        if (level <= 120) return "flood_orange.png"
+        if (level <= 160) return "flood_red.png"
+        return "flood_purple.png"
+      }
 
-      const osm = L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        { maxZoom: 19, attribution: "&copy; OpenStreetMap contributors" }
-      )
+      const createMarker = (feature: any, latlng: L.LatLng) => {
+        const floodLevel = feature.properties?.water_level || 0
+        const iconUrl = `/images/floodmark/${getFloodIcon(floodLevel)}`
+        const poleIcon = L.icon({
+          iconUrl,
+          iconSize: [25, 30],
+          iconAnchor: [14, 36],
+          popupAnchor: [0, -30],
+        })
 
-      googleRoad.addTo(map)
+        const poleId = feature.properties?.code || "-"
+        const poleName = feature.properties?.place_detail || "-"
+        const tool = feature.properties?.tool || "-"
+        const imgUrl = `https://watercenter.scmc.cmu.ac.th/cmflood/images/originals2025/${feature.properties?.pix}`
+        const gmapUrl = `https://www.google.com/maps/dir/?api=1&destination=${latlng.lat},${latlng.lng}`
+
+        const popupContent = `
+          <div style="text-align:left;font-family:'Prompt',sans-serif;">
+            <h2 style="margin:6px 0;color:#0070f3;"><b>หมายเลขหลัก: ${poleId}</b></h2>
+            <h3 style="margin:4px 0;">บริเวณที่ตั้ง: ${poleName}</h3>
+            <p style="margin:4px 0;">ระดับน้ำท่วม: ${floodLevel} ซม.</p>
+            <p style="margin:4px 0;">โครงสร้างที่ทำเครื่องหมาย: ${tool}</p>
+            <div style="display:flex;justify-content:center;gap:10px;margin-top:8px;">
+              <a href="${imgUrl}" target="_blank"
+                style="background:#1d4ed8;color:white;padding:6px 12px;border-radius:6px;text-decoration:none;">
+                🔍 ดูภาพประกอบ
+              </a>
+              <a href="${gmapUrl}" target="_blank"
+                style="background:#1d4ed8;color:white;padding:6px 12px;border-radius:6px;text-decoration:none;">
+                📍 ขอเส้นทาง
+              </a>
+            </div>
+          </div>
+        `
+        return L.marker(latlng, { icon: poleIcon }).bindPopup(popupContent, {
+          maxWidth: 360,
+          minWidth: 360,
+          className: "custom-popup",
+        })
+      }
 
       // --------------------------------------------------
-      // ✅ โหลด GeoJSON จุด (Pole)
+      // ✅ โหลด GeoJSON
       // --------------------------------------------------
       try {
-        const poleRes = await fetch("/data/pole.geojson")
-        const poleData = await poleRes.json()
+        const res = await fetch("/data/pole.geojson")
+        const data = await res.json()
 
-        // 🟢 ฟังก์ชันเลือก icon ตามระดับน้ำ
-        const getFloodIcon = (level: number) => {
-          if (level === 1) return "flood_green.png"
-          if (level === 2) return "flood_yellow.png"
-          if (level === 3) return "flood_orange.png"
-          if (level === 4) return "flood_red.png"
-          return "flood_purple.png"
-        }
+        // 🔹 แบ่ง Layer ตามระดับน้ำ
+        const greenLayer = L.geoJSON(data, {
+          filter: (f) => (f.properties?.water_level || 0) <= 40,
+          pointToLayer: createMarker,
+        })
 
-        const poleLayer = L.geoJSON(poleData, {
-          pointToLayer: (feature, latlng) => {
-            const poleName = feature.properties?.place_detail || "จุดตรวจวัด"
-            const tool = feature.properties?.tool || "-"
-            const floodLevel = feature.properties?.water_level || 0
-            const poleId = feature.properties?.code || "-"
-            const class_flood = feature.properties?.class || 0
-            const imgUrl = `https://watercenter.scmc.cmu.ac.th/cmflood/images/originals2025/${feature.properties?.pix}`
-            const lat = latlng.lat
-            const lng = latlng.lng
-            const gmapUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`
+        const yellowLayer = L.geoJSON(data, {
+          filter: (f) => (f.properties?.water_level || 0) > 40 && (f.properties?.water_level || 0) <= 80,
+          pointToLayer: createMarker,
+        })
 
-            const iconUrl = `/images/floodmark/${getFloodIcon(class_flood)}`
-            const poleIcon = L.icon({
-              iconUrl,
-              iconSize: [25, 30],
-              iconAnchor: [14, 36],
-              popupAnchor: [0, -30],
-            })
+        const orangeLayer = L.geoJSON(data, {
+          filter: (f) => (f.properties?.water_level || 0) > 80 && (f.properties?.water_level || 0) <= 120,
+          pointToLayer: createMarker,
+        })
 
-            const popupContent = `
-              <div style="text-align:left;font-family:'Prompt',sans-serif;">
-                <h2 style="margin:6px 0;color:#0070f3;">
-                  <b>หมายเลขหลัก: ${poleId}</b>
-                </h2>
-                <h3 style="margin:4px 0;">บริเวณที่ตั้ง: ${poleName}</h3>
-                <p style="margin:4px 0;">ระดับน้ำท่วม: ${floodLevel} ซม.</p>
-                <p style="margin:4px 0;">โครงสร้างที่ทำเครื่องหมาย: ${tool}</p>
-                
-                <div style="display:flex;justify-content:center;gap:10px;margin-top:8px;">
-                  <a href="${imgUrl}" target="_blank"
-                    style="background:#1d4ed8;color:white;padding:6px 12px;border-radius:6px;text-decoration:none;">
-                    🔍 ดูภาพประกอบ
-                  </a>
-                  <a href="${gmapUrl}" target="_blank"
-                    style="background:#1d4ed8;color:white;padding:6px 12px;border-radius:6px;text-decoration:none;">
-                    📍 ขอเส้นทาง
-                  </a>
-                </div>
-              </div>
-            `
-            return L.marker(latlng, { icon: poleIcon }).bindPopup(popupContent, {
-              maxWidth: 360,
-              minWidth: 360,
-              className: "custom-popup",
-            })
-          },
-        }).addTo(map)
+        const redLayer = L.geoJSON(data, {
+          filter: (f) => (f.properties?.water_level || 0) > 120 && (f.properties?.water_level || 0) <= 160,
+          pointToLayer: createMarker,
+        })
+
+        const purpleLayer = L.geoJSON(data, {
+          filter: (f) => (f.properties?.water_level || 0) > 160,
+          pointToLayer: createMarker,
+        })
 
         // --------------------------------------------------
         // ✅ Layer Control
         // --------------------------------------------------
         const baseLayers = {
-          "🛰️ Google Satellite": googleSat,
-          "🏔️ Google Terrain": googleTerrain,
+          "ถนน (Google Road)": googleRoad,
+          "ดาวเทียม (Satellite)": googleSat,
+          "ภูมิประเทศ (Terrain)": googleTerrain,
         }
 
         const overlays: Record<string, L.Layer> = {
-          "หลักเตือนระดับน้ำท่วมเขตเมือง": poleLayer,
+          "🟢 ระดับน้ำ 0 - 40 ซม. ": greenLayer,
+          "🟡 ระดับน้ำ 41 - 80 ซม.": yellowLayer,
+          "🟠 ระดับน้ำ 81 - 120 ซม.": orangeLayer,
+          "🔴 ระดับน้ำ 121 - 160 ซม.": redLayer,
+          "🟣 ระดับน้ำ > 160 ซม.": purpleLayer,
         }
 
-        L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map)
+        // เพิ่มทุก layer เข้า map เริ่มต้น
+        const styleEl = document.createElement("style")
+        styleEl.innerHTML = `
+          .leaflet-container, .leaflet-popup-content, .leaflet-control {
+            font-family: 'Prompt', sans-serif !important;
+          }
+        `
+        document.head.appendChild(styleEl)
+        Object.values(overlays).forEach((layer) => layer.addTo(map))
+
+        L.control.layers(baseLayers, overlays, { collapsed: true, position: "topright" }).addTo(map)
       } catch (err) {
         console.error("❌ โหลด pole.geojson ไม่สำเร็จ:", err)
       }
@@ -128,5 +152,5 @@ export default function CnxTif() {
     initMap()
   }, [])
 
-  return <div id="map" className="w-full h-[80vh]" />
+  return <div id="map" className="w-full h-[100vh]" />
 }
