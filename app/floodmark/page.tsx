@@ -166,7 +166,7 @@ export default function WaterDashboard() {
         <div className="container mx-auto px-4 py-6">
             <div className="grid grid-cols-12 gap-6">
             {/* 📘 วิธีใช้งาน (3 ส่วน) */}
-            <div className="col-span-12 md:col-span-2">
+            <div className="col-span-12 md:col-span-3">
                 <Card className="h-full border border-blue-100 shadow-sm">
                   <CardHeader>
                       <CardTitle className="flex flex-col items-center justify-center text-center text-blue-700 text-sm">
@@ -207,67 +207,57 @@ export default function WaterDashboard() {
                       <h3 className="text-base font-semibold text-blue-700 mb-6">
                         สัญลักษณ์เครื่องหมายระดับน้ำท่วม
                       </h3>
-                      <div className="bg-white rounded-xl shadow-md px-4 py-3 border border-gray-200 w-full">
-                        <div className="grid grid-cols-1 gap-3">
-                          <div className="flex items-center gap-3">
-                            <Image
-                              src="/images/floodmark/flood_green.png"
-                              alt="ต่ำมาก"
-                              width={30}
-                              height={30}
-                              className="object-contain"
-                            />
-                            <span className="text-sm text-gray-800">0 - 40 ซม.</span>
+
+                      <div className="bg-white rounded-xl shadow-md px-6 py-3 border border-gray-200 w-full">
+                        <div className="flex justify-between items-center w-full">
+                          {/* flood icons */}
+                          <div className="flex flex-col items-center">
+                            <Image src="/images/floodmark/flood_green.png" alt="ต่ำมาก" width={50} height={50} />
+                            <span className="text-xs text-gray-800 mt-1">0 - 40</span>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <Image
-                              src="/images/floodmark/flood_yellow.png"
-                              alt="ปานกลาง"
-                              width={30}
-                              height={30}
-                              className="object-contain"
-                            />
-                            <span className="text-sm text-gray-800">41 - 80 ซม.</span>
+                          <div className="flex flex-col items-center">
+                            <Image src="/images/floodmark/flood_yellow.png" alt="ปานกลาง" width={50} height={50} />
+                            <span className="text-xs text-gray-800 mt-1">41 - 80</span>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <Image
-                              src="/images/floodmark/flood_orange.png"
-                              alt="สูง"
-                              width={30}
-                              height={30}
-                              className="object-contain"
-                            />
-                            <span className="text-sm text-gray-800">81 - 120 ซม.</span>
+                          <div className="flex flex-col items-center">
+                            <Image src="/images/floodmark/flood_orange.png" alt="สูง" width={50} height={50} />
+                            <span className="text-xs text-gray-800 mt-1">81 - 120</span>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <Image
-                              src="/images/floodmark/flood_red.png"
-                              alt="รุนแรง"
-                              width={30}
-                              height={30}
-                              className="object-contain"
-                            />
-                            <span className="text-sm text-gray-800">121 - 160 ซม.</span>
+                          <div className="flex flex-col items-center">
+                            <Image src="/images/floodmark/flood_red.png" alt="รุนแรง" width={50} height={50} />
+                            <span className="text-xs text-gray-800 mt-1">121 - 160</span>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <Image
-                              src="/images/floodmark/flood_purple.png"
-                              alt="สูงมาก"
-                              width={30}
-                              height={30}
-                              className="object-contain"
-                            />
-                            <span className="text-sm text-gray-800">มากกว่า 161 ซม.</span>
+                          <div className="flex flex-col items-center">
+                            <Image src="/images/floodmark/flood_purple.png" alt="สูงมาก" width={50} height={50} />
+                            <span className="text-xs text-gray-800 mt-1">&gt; 160</span>
                           </div>
+                          
                         </div>
+                        <p className="text-xs text-gray-600 mt-2 text-center">
+                          ระดับน้ำ (เซนติเมตร)
+                          </p>
                       </div>
                     </div>
                   </CardContent>
+
+                  <CardContent>
+                      <div className="flex flex-col items-center text-center mt-6 -mt-[20px]">
+                        <Image
+                            src="/images/floodmark/refflood24.png"
+                            alt="City flood map"
+                            width={1000}
+                            height={600}
+                            className="rounded-xl object-cover shadow-md w-full h-auto"
+                          />
+                      </div>
+                  </CardContent>
+
+
                 </Card>
             </div>
             
             {/* 🗺️ แผนที่ (9 ส่วน) */}
-            <div className="col-span-12 md:col-span-10 ">
+            <div className="col-span-12 md:col-span-9 ">
               <Card className="h-full">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">

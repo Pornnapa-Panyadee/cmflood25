@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react"
 import "leaflet/dist/leaflet.css"
-import { tr } from "date-fns/locale"
+import "leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css"
+import { kml as toGeoJSONKml } from "togeojson"
 
 export default function CnxTif() {
   const mapRef = useRef<L.Map | null>(null)
@@ -15,9 +16,14 @@ export default function CnxTif() {
       }
 
       const L = (await import("leaflet")).default
-      const map = L.map("map", { center: [18.787563, 99.003968], zoom: 13 })
+      await import("leaflet-groupedlayercontrol")
+
+      const map = L.map("map", { center: [18.787563, 99.003968], zoom: 12 })
       mapRef.current = map
 
+      // --------------------------------------------------
+      //  Base maps
+      // --------------------------------------------------
       const googleRoad = L.tileLayer(
         "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
         { maxZoom: 20, attribution: "&copy; Google Map" }
@@ -33,7 +39,9 @@ export default function CnxTif() {
         { maxZoom: 20, attribution: "&copy; Google Terrain" }
       )
 
-      // 🟢 กำหนด icon ตามสี
+      // --------------------------------------------------
+      // 🧩 Flood icons
+      // --------------------------------------------------
       const getFloodIcon = (level: number) => {
         if (level <= 40) return "flood_green.png"
         if (level <= 80) return "flood_yellow.png"
@@ -76,77 +84,117 @@ export default function CnxTif() {
             </div>
           </div>
         `
-        return L.marker(latlng, { icon: poleIcon }).bindPopup(popupContent, {
-          maxWidth: 360,
-          minWidth: 360,
-          className: "custom-popup",
-        })
+        return L.marker(latlng, { icon: poleIcon }).bindPopup(popupContent)
       }
 
       // --------------------------------------------------
       // ✅ โหลด GeoJSON
       // --------------------------------------------------
-      try {
-        const res = await fetch("/data/pole.geojson")
-        const data = await res.json()
+      const res = await fetch("/data/pole.geojson")
+      const data = await res.json()
 
-        // 🔹 แบ่ง Layer ตามระดับน้ำ
-        const greenLayer = L.geoJSON(data, {
-          filter: (f) => (f.properties?.water_level || 0) <= 40,
-          pointToLayer: createMarker,
+      const greenLayer = L.geoJSON(data, {
+        filter: (f) => (f.properties?.water_level || 0) <= 40,
+        pointToLayer: createMarker,
+      })
+      const yellowLayer = L.geoJSON(data, {
+        filter: (f) =>
+          (f.properties?.water_level || 0) > 40 && (f.properties?.water_level || 0) <= 80,
+        pointToLayer: createMarker,
+      })
+      const orangeLayer = L.geoJSON(data, {
+        filter: (f) =>
+          (f.properties?.water_level || 0) > 80 && (f.properties?.water_level || 0) <= 120,
+        pointToLayer: createMarker,
+      })
+      const redLayer = L.geoJSON(data, {
+        filter: (f) =>
+          (f.properties?.water_level || 0) > 120 && (f.properties?.water_level || 0) <= 160,
+        pointToLayer: createMarker,
+      })
+      const purpleLayer = L.geoJSON(data, {
+        filter: (f) => (f.properties?.water_level || 0) > 160,
+        pointToLayer: createMarker,
+      })
+
+      // --------------------------------------------------
+      // โหลด KML → GeoJSON
+      // --------------------------------------------------
+      const loadKmlAsLayer = async (url: string, color: string) => {
+        const xmlText = await fetch(url).then((r) => r.text())
+        const xmlDom = new DOMParser().parseFromString(xmlText, "text/xml")
+        const geojson = toGeoJSONKml(xmlDom)
+        const layer = L.geoJSON(geojson, {
+          style: {
+            stroke: false,
+            fillColor: color,
+            fillOpacity: 0.25,
+          },
         })
-
-        const yellowLayer = L.geoJSON(data, {
-          filter: (f) => (f.properties?.water_level || 0) > 40 && (f.properties?.water_level || 0) <= 80,
-          pointToLayer: createMarker,
-        })
-
-        const orangeLayer = L.geoJSON(data, {
-          filter: (f) => (f.properties?.water_level || 0) > 80 && (f.properties?.water_level || 0) <= 120,
-          pointToLayer: createMarker,
-        })
-
-        const redLayer = L.geoJSON(data, {
-          filter: (f) => (f.properties?.water_level || 0) > 120 && (f.properties?.water_level || 0) <= 160,
-          pointToLayer: createMarker,
-        })
-
-        const purpleLayer = L.geoJSON(data, {
-          filter: (f) => (f.properties?.water_level || 0) > 160,
-          pointToLayer: createMarker,
-        })
-
-        // --------------------------------------------------
-        // ✅ Layer Control
-        // --------------------------------------------------
-        const baseLayers = {
-          "ถนน (Google Road)": googleRoad,
-          "ดาวเทียม (Satellite)": googleSat,
-          "ภูมิประเทศ (Terrain)": googleTerrain,
-        }
-
-        const overlays: Record<string, L.Layer> = {
-          "🟢 ระดับน้ำ 0 - 40 ซม. ": greenLayer,
-          "🟡 ระดับน้ำ 41 - 80 ซม.": yellowLayer,
-          "🟠 ระดับน้ำ 81 - 120 ซม.": orangeLayer,
-          "🔴 ระดับน้ำ 121 - 160 ซม.": redLayer,
-          "🟣 ระดับน้ำ > 160 ซม.": purpleLayer,
-        }
-
-        // เพิ่มทุก layer เข้า map เริ่มต้น
-        const styleEl = document.createElement("style")
-        styleEl.innerHTML = `
-          .leaflet-container, .leaflet-popup-content, .leaflet-control {
-            font-family: 'Prompt', sans-serif !important;
-          }
-        `
-        document.head.appendChild(styleEl)
-        Object.values(overlays).forEach((layer) => layer.addTo(map))
-
-        L.control.layers(baseLayers, overlays, { collapsed: true, position: "topright" }).addTo(map)
-      } catch (err) {
-        console.error("❌ โหลด pole.geojson ไม่สำเร็จ:", err)
+        return layer
       }
+
+      const cnxLayer = await loadKmlAsLayer("/data/KML/CNX_b.kml", "#0070f3")
+      const lpnLayer = await loadKmlAsLayer("/data/KML/LPN_b.kml", "#0070f3")
+
+      // --------------------------------------------------
+      // Grouped Layer Control
+      // --------------------------------------------------
+      const baseLayers = {
+        "ถนน (Google Road)": googleRoad,
+        "ดาวเทียม (Satellite)": googleSat,
+        "ภูมิประเทศ (Terrain)": googleTerrain,
+      }
+
+      const groupedOverlays = {
+        "ช่วงความสูงระดับน้ำท่วม": {
+          "🟢 0 - 40 ซม.": greenLayer,
+          "🟡 41 - 80 ซม.": yellowLayer,
+          "🟠 81 - 120 ซม.": orangeLayer,
+          "🔴 121 - 160 ซม.": redLayer,
+          "🟣 > 160 ซม.": purpleLayer,
+        },
+        "พื้นที่น้ำท่วม (ต.ค. 2567)": {
+          "จ.เชียงใหม่": cnxLayer,
+          "จ.ลำพูน": lpnLayer,
+        },
+      }
+
+   
+      // @ts-ignore
+      const groupedControl = L.control
+        // @ts-ignore
+        .groupedLayers(baseLayers, groupedOverlays, {
+          collapsed: true,
+          position: "topright",
+        })
+        .addTo(map)
+
+      Object.values(groupedOverlays).forEach((group: any) => {
+        Object.values(group).forEach((layer: any) => {
+          layer.addTo(map)
+        })
+      })
+
+      // --------------------------------------------------
+      // Style
+      // --------------------------------------------------
+      const styleEl = document.createElement("style")
+      styleEl.innerHTML = `
+        .leaflet-control-layers {
+          font-family: 'Prompt', sans-serif !important;
+          font-size: 13px;
+        }
+        .leaflet-control-layers-group-name {
+          font-weight: 600;
+          color: #1d4ed8;
+          background: #eef3ff;
+          border-radius: 6px;
+          padding: 4px 6px;
+          margin: 3px 0;
+        }
+      `
+      document.head.appendChild(styleEl)
     }
 
     initMap()
