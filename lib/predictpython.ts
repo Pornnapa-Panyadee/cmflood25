@@ -1,5 +1,5 @@
 // lib/predict.ts
-import model from "@/public/model_export.json"
+import model from "@/public/model/model_export.json"
 
 // safe tanh
 function tanh(x: number) {

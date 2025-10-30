@@ -2,7 +2,7 @@
 "use client"
 
 import { useState } from "react"
-import { predict } from "@/lib/predict"
+import { predict } from "@/lib/predictMatlab"
 
 export default function PredictorPage() {
   const FEATURE_GROUPS: Record<string, string[]> = {

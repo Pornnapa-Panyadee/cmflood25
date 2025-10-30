@@ -154,8 +154,8 @@ export default function CnxTif() {
               const t = norm / 0.33
               return [
                 Math.floor(100 * (1 - t) + 20 * t),
-                Math.floor(160 * (1 - t) + 60 * t),
-                Math.floor(255 * (1 - t) + 200 * t),
+                Math.floor(160 * (1 - t) + 80 * t),
+                Math.floor(255 * (1 - t) + 260 * t),
               ]
             } else if (norm < 0.66) {
               const t = (norm - 0.33) / 0.33
@@ -213,7 +213,8 @@ export default function CnxTif() {
       // --------------------------------------------------
       const [nnData, idwData] = await Promise.all([
         loadRasterLayer("/data/cnxlpn_3NN.tif", "Nearest Neighbor (NN)"),
-        loadRasterLayer("/data/cnxlpn_3IDW.tif", "Inverse Distance Weighted (IDW)"),
+        loadRasterLayer("/data/Idw_Fl2clip.tif", "Inverse Distance Weighted (IDW)"),
+        //loadRasterLayer("/data/cnxlpn_3IDW.tif", "Inverse Distance Weighted (IDW)"),
       ])
       if (!nnData || !idwData) return
 
