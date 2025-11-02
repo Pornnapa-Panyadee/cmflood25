@@ -40,7 +40,7 @@ export default function PredictorPage() {
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-8">
       <h1 className="text-2xl font-bold text-center">
-        🧠 MLP Prediction (MATLAB → Python → Next.js)
+        Water Level Prediction : P.1 สะพานวรัฐ เชียงใหม่ 
       </h1>
 
       {/* Tabs */}

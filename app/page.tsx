@@ -86,7 +86,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/risk-map">
+              <Link href="/floodmark">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -103,7 +103,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/risk-map">
+              <Link href="/floodInterpolation">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
