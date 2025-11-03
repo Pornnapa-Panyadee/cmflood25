@@ -26,8 +26,6 @@ export default function CnxTif() {
       }
 
       const L = (await import("leaflet")).default
-
-      // 🗺️ พื้นหลัง
       const map = L.map("map", { center: [18.75, 98.99], zoom: 12 })
       mapRef.current = map
 
@@ -53,103 +51,67 @@ export default function CnxTif() {
       googleTerrain.addTo(map)
 
       // --------------------------------------------------
-      // ✅ โหลด KML (River / Road)
+      // ✅ โหลด KML / GeoJSON
       // --------------------------------------------------
       let pingRiver: L.GeoJSON | null = null
       let roadLayer: L.GeoJSON | null = null
       let poleLayer: L.GeoJSON | null = null
 
-      try {
-        const pingRes = await fetch("/data/KML/stream.kml")
-        const pingText = await pingRes.text()
-        const parser = new DOMParser()
-        const xml = parser.parseFromString(pingText, "text/xml")
-        const geojson = kml(xml)
-        pingRiver = L.geoJSON(geojson, {
-          style: { color: "#ffffffff", weight: 1, opacity: 0.9 },
-        }).addTo(map)
-      } catch (err) {
-        console.error("❌ โหลด Ping.kml ไม่สำเร็จ:", err)
+      const loadKml = async (url: string, color: string, weight = 1) => {
+        const res = await fetch(url)
+        const text = await res.text()
+        const xml = new DOMParser().parseFromString(text, "text/xml")
+        const geo = kml(xml)
+        return L.geoJSON(geo, { style: { color, weight, opacity: 0.8 } })
       }
 
       try {
-        const roadRes = await fetch("/data/KML/road.kml")
-        const roadText = await roadRes.text()
-        const parser = new DOMParser()
-        const xml = parser.parseFromString(roadText, "text/xml")
-        const geojson = kml(xml)
-        roadLayer = L.geoJSON(geojson, {
-          style: { color: "#ffffffff", weight: 1, opacity: 0.8 },
-        }).addTo(map)
-      } catch (err) {
-        console.error("❌ โหลด Road.kml ไม่สำเร็จ:", err)
-      }
+        pingRiver = await loadKml("/data/KML/stream.kml", "#ffffff", 1)
+        roadLayer = await loadKml("/data/KML/road.kml", "#ffffff", 1)
+        pingRiver.addTo(map)
+        roadLayer.addTo(map)
+      } catch {}
 
-      // --------------------------------------------------
-      // ✅ โหลด GeoJSON จุด (Pole)
-      // --------------------------------------------------
       try {
         const poleRes = await fetch("/data/pole.geojson")
         const poleData = await poleRes.json()
-
         poleLayer = L.geoJSON(poleData, {
-          pointToLayer: (feature, latlng) =>
+          pointToLayer: (f, latlng) =>
             L.circleMarker(latlng, {
               radius: 1.5,
-              fillColor: "#fdca73ff",
-              color: "#ffffffff",
+              fillColor: "#3c3c3c",
+              color: "#ffffff",
               weight: 1,
               opacity: 0.6,
               fillOpacity: 1,
             }).bindPopup(
-              `<div style="font-family: 'Prompt', sans-serif; line-height: 1.4;">
-                📍 <b>ตำแหน่งจุดวัด:</b> ${feature.properties.place_detail} <br>
-                <center>
-                  <span style="color: blue; font-size: 16px; font-weight: 500;">
-                    ระดับน้ำท่วม: ${feature.properties.water_level} ซม.
-                  </span>
-                </center>
-              </div>`
+              `<div style="font-family:'Prompt',sans-serif;line-height:1.4;">
+                 📍 <b>จุดวัด:</b> ${f.properties.place_detail}<br>
+                 <center><span style="color:blue;font-size:16px;font-weight:500;">
+                   ระดับน้ำ: ${f.properties.water_level} ซม.
+                 </span></center>
+               </div>`
             ),
         }).addTo(map)
-      } catch (err) {
-        console.error("❌ โหลด pole.geojson ไม่สำเร็จ:", err)
-      }
+      } catch {}
 
       // --------------------------------------------------
-      // ✅ ฟังก์ชันโหลด TIFF
+      // ✅ โหลด TIFF
       // --------------------------------------------------
-      async function loadRasterLayer(url: string, label: string) {
-        try {
-          const response = await fetch(url)
-          const arrayBuffer = await response.arrayBuffer()
-          const tiff = await fromArrayBuffer(arrayBuffer)
-          const image = await tiff.getImage()
-          const rasters = await image.readRasters()
-          const data = rasters[0] as TypedArray
-          const width = image.getWidth()
-          const height = image.getHeight()
-          const bbox = image.getBoundingBox()
-          const [minX, minY, maxX, maxY] = bbox
+      async function loadRaster(url: string, type: "blue" | "zone") {
+        const res = await fetch(url)
+        const buf = await res.arrayBuffer()
+        const tiff = await fromArrayBuffer(buf)
+        const img = await tiff.getImage()
+        const data = (await img.readRasters())[0] as TypedArray
+        const w = img.getWidth()
+        const h = img.getHeight()
+        const [minX, minY, maxX, maxY] = img.getBoundingBox()
 
-          // 🔹 คำนวณค่าน้อยสุด/มากสุด
-          let min = Infinity,
-            max = -Infinity
-          for (const v of data) {
-            if (v > -1e30 && !isNaN(v)) {
-              if (v < min) min = v
-              if (v > max) max = v
-            }
-          }
-
-          const canvas = document.createElement("canvas")
-          canvas.width = width
-          canvas.height = height
-          const ctx = canvas.getContext("2d")!
-          const imageData = ctx.createImageData(width, height)
-
-          // 🎨 Gradient: ฟ้า → น้ำเงินเข้ม → กรมท่า
-          const getColor = (norm: number): [number, number, number] => {
+        // 🔹 ฟังก์ชันสี
+        const getColor = (val: number, norm: number): [number, number, number] => {
+          if (type === "blue") {
+            // Gradient ฟ้า → น้ำเงิน → กรมท่า
             if (norm < 0.33) {
               const t = norm / 0.33
               return [
@@ -172,154 +134,175 @@ export default function CnxTif() {
                 Math.floor(130 * (1 - t) + 80 * t),
               ]
             }
+          } else {
+            // Zone สี
+            if (val <= 40) return [51, 255, 55]
+            if (val <= 80) return [255, 255, 51]
+            if (val <= 120) return [255, 165, 0]
+            if (val <= 160) return [255, 0, 0]
+            return [153, 0, 204]
           }
-
-          for (let i = 0; i < data.length; i++) {
-            const value = data[i]
-            const idx = i * 4
-            if (value < -1e30 || isNaN(value)) {
-              imageData.data[idx + 3] = 0
-            } else {
-              const norm = (value - min) / (max - min)
-              let [r, g, b] = getColor(norm)
-              const boost = 1.25
-              r = Math.min(255, r * boost)
-              g = Math.min(255, g * boost)
-              b = Math.min(255, b * boost)
-              imageData.data[idx] = r
-              imageData.data[idx + 1] = g
-              imageData.data[idx + 2] = b
-              imageData.data[idx + 3] = 200 // transparency per pixel
-            }
-          }
-
-          ctx.putImageData(imageData, 0, 0)
-          const bounds: L.LatLngBoundsExpression = [
-            [minY, minX],
-            [maxY, maxX],
-          ]
-          const rasterLayer = L.imageOverlay(canvas.toDataURL(), bounds, {
-            opacity: 0.8,
-          })
-          return { rasterLayer, image, width, height, bbox, min, max, label }
-        } catch (err) {
-          console.error(`โหลด ${url} ไม่สำเร็จ:`, err)
-          return null
         }
+
+        // คำนวณ min/max
+        let min = Infinity,
+          max = -Infinity
+        for (const v of data) {
+          if (v > -1e30 && !isNaN(v)) {
+            if (v < min) min = v
+            if (v > max) max = v
+          }
+        }
+
+        const canvas = document.createElement("canvas")
+        canvas.width = w
+        canvas.height = h
+        const ctx = canvas.getContext("2d")!
+        const imgData = ctx.createImageData(w, h)
+
+        for (let i = 0; i < data.length; i++) {
+          const v = data[i]
+          const idx = i * 4
+          if (v < -1e30 || isNaN(v)) {
+            imgData.data[idx + 3] = 0
+          } else {
+            const norm = (v - min) / (max - min)
+            let [r, g, b] = getColor(v, norm)
+            const boost = 1.25
+            r = Math.min(255, r * boost)
+            g = Math.min(255, g * boost)
+            b = Math.min(255, b * boost)
+            imgData.data[idx] = r
+            imgData.data[idx + 1] = g
+            imgData.data[idx + 2] = b
+            imgData.data[idx + 3] = 200
+          }
+        }
+
+        ctx.putImageData(imgData, 0, 0)
+        const bounds: L.LatLngBoundsExpression = [
+          [minY, minX],
+          [maxY, maxX],
+        ]
+        const layer = L.imageOverlay(canvas.toDataURL(), bounds, { opacity: 0.85 })
+        return { rasterLayer: layer, image: img, width: w, height: h, bbox: [minX, minY, maxX, maxY], min, max }
       }
 
-      // --------------------------------------------------
-      // ✅ โหลด GeoTIFF (NN / IDW)
-      // --------------------------------------------------
-      const [nnData, idwData] = await Promise.all([
-        loadRasterLayer("/data/cnxlpn_3NN.tif", "Nearest Neighbor (NN)"),
-        loadRasterLayer("/data/Idw_Fl2clip.tif", "Inverse Distance Weighted (IDW)"),
-        //loadRasterLayer("/data/cnxlpn_3IDW.tif", "Inverse Distance Weighted (IDW)"),
+      const [blueMap, zoneMap] = await Promise.all([
+        loadRaster("/data/Idw_Fl2clip.tif", "blue"),
+        loadRaster("/data/Idw_Fl2clip.tif", "zone"),
       ])
-      if (!nnData || !idwData) return
+      if (!blueMap || !zoneMap) return
 
       // --------------------------------------------------
-      // ✅ Layer Control
+      // ✅ Layers
       // --------------------------------------------------
       const baseLayers = {
         "Dark Matter": darkBase,
         "Google Satellite": googleSat,
         "Google Terrain": googleTerrain,
       }
-
+      L.control.layers(baseLayers, {}, { collapsed: true, position: "topright" }).addTo(map)
       const overlays = {
-        // "NN - Nearest Neighbor": nnData.rasterLayer,
-        "แผนที่ระดับน้ำท่วม": idwData.rasterLayer,
+        "แผนที่ระดับน้ำท่วม": blueMap.rasterLayer,
+        "แผนที่โซนน้ำท่วม": zoneMap.rasterLayer,
       }
 
-      const infraLayers: Record<string, L.Layer> = {}
-      if (pingRiver) infraLayers["เส้นทางน้ำ"] = pingRiver
-      if (roadLayer) infraLayers["เส้นทางถนน"] = roadLayer
-      if (poleLayer) infraLayers["จุดระดับน้ำท่วม"] = poleLayer
+      blueMap.rasterLayer.addTo(map)
 
-      idwData.rasterLayer.addTo(map)
-      L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map)
-      L.control.layers({}, infraLayers, { collapsed: true, position: "topright" }).addTo(map)
+      const infra: Record<string, L.Layer> = {}
+      if (pingRiver) infra["เส้นทางน้ำ"] = pingRiver
+      if (roadLayer) infra["เส้นทางถนน"] = roadLayer
+      if (poleLayer) infra["จุดระดับน้ำท่วม"] = poleLayer
 
-      // ✅ เพิ่มหัวข้อ Interpolation ด้านบน overlay
-      setTimeout(() => {
-        const overlayList = document.querySelector(
-          ".leaflet-control-layers-overlays"
-        ) as HTMLElement
-        if (overlayList) {
-          const header = document.createElement("div")
-          header.innerHTML = `<strong style="display:block; margin-bottom:4px; color:#333;">การประมาณค่าระดับน้ำเชิงพื้นที่</strong>`
-          overlayList.prepend(header)
-        }
-      }, 100)
+      L.control.layers({}, overlays, { collapsed: true }).addTo(map)
+      L.control.layers({}, infra, { collapsed: true, position: "topright" }).addTo(map)
 
       // --------------------------------------------------
-      // ✅ Legend
+      // ✅ Legend (เปลี่ยนตามชั้น)
       // --------------------------------------------------
-      const globalMin = Math.min(nnData.min, idwData.min)
-      const globalMax = Math.max(nnData.max, idwData.max)
-
       const legend = (L as any).control({ position: "bottomright" })
-      legend.onAdd = function () {
+
+      const gradientLegend = `
+        <b>ระดับน้ำ (ซม.)</b><br/>
+        <canvas id="grad" width="120" height="10"></canvas><br/>
+        <div style="display:flex;justify-content:space-between;font-size:10px;">
+          <span>0</span><span>ต่ำ</span><span>สูง</span>
+        </div>`
+
+      const zoneLegend = `
+        <b>ระดับน้ำ (ซม.)</b><br/>
+        <div style="display:flex;flex-direction:column;gap:2px;font-size:11px;">
+          <div><span style="background:#33ff33;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>0–40</div>
+          <div><span style="background:#ffff33;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>40–80</div>
+          <div><span style="background:#ffa500;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>80–120</div>
+          <div><span style="background:#ff0000;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>120–160</div>
+          <div><span style="background:#9900cc;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>>160</div>
+        </div>`
+
+      legend.onAdd = () => {
         const div = L.DomUtil.create("div", "info legend bg-white p-2 rounded shadow")
-        const canvas = document.createElement("canvas")
-        canvas.width = 120
-        canvas.height = 12
-        const ctx2 = canvas.getContext("2d")!
+        div.innerHTML = gradientLegend
+        return div
+      }
+      legend.addTo(map)
+
+      // วาด gradient legend canvas
+      const drawGradient = () => {
+        const c = document.getElementById("grad") as HTMLCanvasElement
+        if (!c) return
+        const ctx2 = c.getContext("2d")!
         const grad = ctx2.createLinearGradient(0, 0, 120, 0)
         grad.addColorStop(0, "#A8D8FF")
         grad.addColorStop(0.33, "#3399FF")
         grad.addColorStop(0.66, "#0044CC")
         grad.addColorStop(1, "#001133")
         ctx2.fillStyle = grad
-        ctx2.fillRect(0, 0, 120, 12)
-
-        div.innerHTML = `
-          <div style="font-family: 'Prompt', sans-serif; font-size: 12px;">
-            <b>ระดับน้ำ (ซม.)</b><br/>
-            <img src="${canvas.toDataURL()}" width="120" height="8"/>
-            <div style="
-              display: flex;
-              justify-content: space-between;
-              font-size: 10px;
-              color: #333;
-              margin-top: -2px;
-            ">
-              <span>0</span>
-              <span>280</span>
-            </div>
-          </div>
-        `
-        return div
+        ctx2.fillRect(0, 0, 120, 10)
       }
-      legend.addTo(map)
+      drawGradient()
 
+      // ✅ อัปเดต legend เมื่อเปลี่ยน layer
+      map.on("overlayadd", (e: any) => {
+        const div = document.querySelector(".legend") as HTMLElement
+        if (e.name === "แผนที่โซนน้ำท่วม") {
+          legend.getContainer().innerHTML = zoneLegend
+        } else {
+          legend.getContainer().innerHTML = gradientLegend
+          setTimeout(drawGradient, 50)
+        }
+      })
+
+      map.on("overlayremove", (e: any) => {
+        if (e.name === "แผนที่โซนน้ำท่วม") {
+          legend.getContainer().innerHTML = gradientLegend
+          setTimeout(drawGradient, 50)
+        }
+      })
 
       // --------------------------------------------------
-      // ✅ Popup แสดงค่าจริง (จาก layer ที่เปิดอยู่)
+      // ✅ Popup
       // --------------------------------------------------
       map.on("click", async (e: L.LeafletMouseEvent) => {
-        const activeLayer =
-          map.hasLayer(nnData.rasterLayer) && !map.hasLayer(idwData.rasterLayer)
-            ? nnData
-            : idwData
-
-        const { image, width, height, bbox } = activeLayer
+        const active =
+          map.hasLayer(zoneMap.rasterLayer) && !map.hasLayer(blueMap.rasterLayer)
+            ? zoneMap
+            : blueMap
+        const { image, width, height, bbox } = active
         const [minX, minY, maxX, maxY] = bbox
         const { lat, lng } = e.latlng
         const x = Math.floor(((lng - minX) / (maxX - minX)) * width)
         const y = Math.floor((1 - (lat - minY) / (maxY - minY)) * height)
         if (x < 0 || y < 0 || x >= width || y >= height) return
-
-        const pixel = await image.readRasters({ window: [x, y, x + 1, y + 1] })
-        const val = (pixel as TypedArray[])[0][0]
-
+        const px = await image.readRasters({ window: [x, y, x + 1, y + 1] })
+        const val = (px as TypedArray[])[0][0]
         if (val > -1e30 && !isNaN(val)) {
           L.popup()
             .setLatLng(e.latlng)
             .setContent(
-              `<div style="font-family: 'Prompt', sans-serif; line-height: 1.4;">
-                <b>ค่าระดับน้ำท่วม:</b> <span style="color: blue; font-size: 16px; font-weight: 500;">${val.toFixed(0)} ซม.</span>
+              `<div style="font-family:'Prompt',sans-serif;line-height:1.4;">
+                <b>ค่าระดับน้ำท่วม:</b> 
+                <span style="color:blue;font-size:16px;font-weight:500;">${val.toFixed(0)} ซม.</span>
               </div>`
             )
             .openOn(map)
