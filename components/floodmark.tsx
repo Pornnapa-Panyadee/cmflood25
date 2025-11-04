@@ -63,7 +63,11 @@ export default function CnxTif() {
         const poleId = feature.properties?.code || "-"
         const poleName = feature.properties?.place_detail || "-"
         const tool = feature.properties?.tool || "-"
-        const imgUrl = `https://watercenter.scmc.cmu.ac.th/cmflood/images/originals2025/${feature.properties?.pix}`
+        const pix = feature.properties?.code || "-"
+        const id = feature.properties?.id|| "-"
+        //const imgUrl = `https://watercenter.scmc.cmu.ac.th/cmflood/flood24/image/${pix}`
+        // const imgUrl = `https://watercenter.scmc.cmu.ac.th/cmflood/flood_mark_2024/${pix}_1.jpg`
+        const imgUrl = `/report/${id}`
         const gmapUrl = `https://www.google.com/maps/dir/?api=1&destination=${latlng.lat},${latlng.lng}`
 
         const popupContent = `
