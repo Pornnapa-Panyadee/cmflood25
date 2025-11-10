@@ -42,6 +42,7 @@ export default function CnxTif() {
 
       // ---------- Vector overlays ----------
       let pingRiver: L.GeoJSON | null = null
+      let pingRiver_New: L.GeoJSON | null = null
       let roadLayer: L.GeoJSON | null = null
       let poleLayer: L.GeoJSON | null = null
 
@@ -54,9 +55,11 @@ export default function CnxTif() {
       }
 
       try {
-        pingRiver = await loadKml("/data/KML/stream.kml", "#ffffff", 1)
-        roadLayer = await loadKml("/data/KML/road.kml", "#ffffff", 1)
+        pingRiver = await loadKml("/data/KML/stream.kml", "#529decff", 1.5)
+        pingRiver_New = await loadKml("/data/KML/stream_cm.kml", "#529decff", 1.5)
+        roadLayer = await loadKml("/data/KML/road.kml", "#b29e09ff", 1)
         pingRiver.addTo(map)
+        pingRiver_New.addTo(map)
         roadLayer.addTo(map)
       } catch {}
 
@@ -176,6 +179,7 @@ export default function CnxTif() {
 
       const infra: Record<string, L.Layer> = {}
       if (pingRiver) infra["เส้นทางน้ำ"] = pingRiver
+      if (pingRiver_New) infra["เส้นทางน้ำ(ใหม่)"] = pingRiver_New
       if (roadLayer) infra["เส้นทางถนน"] = roadLayer
       if (poleLayer) infra["จุดระดับน้ำท่วม"] = poleLayer
       L.control.layers({}, infra, { collapsed: true, position: "topright" }).addTo(map)
