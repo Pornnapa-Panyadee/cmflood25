@@ -3,7 +3,7 @@ export function Footer() {
     {
       name: "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
       link: "https://www.mhesi.go.th/",
-      logo: "/images/logo/HESRI.png", 
+      logo: "/images/logo/HESRI.png",
     },
     {
       name: "สำนักงานคณะกรรมการส่งเสริมวิทยาศาสตร์ วิจัยและนวัตกรรม",
@@ -57,10 +57,10 @@ export function Footer() {
               </a>
             ))}
           </div>
-
-         
         </div>
       </div>
     </footer>
   )
 }
+
+export default Footer   // ✅ เพิ่มบรรทัดนี้
