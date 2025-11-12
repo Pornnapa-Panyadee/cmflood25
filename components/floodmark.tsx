@@ -132,14 +132,23 @@ export default function CnxTif() {
           style: {
             stroke: false,
             fillColor: color,
-            fillOpacity: 0.25,
+            fillOpacity: 0.5,
           },
         })
         return layer
       }
 
+      const loadKml = async (url: string, color: string, weight = 1) => {
+        const res = await fetch(url)
+        const text = await res.text()
+        const xml = new DOMParser().parseFromString(text, "text/xml")
+        const geo = toGeoJSONKml(xml)
+        return L.geoJSON(geo, { style: { color, weight, opacity: 0.8 } })
+      }
+
       const cnxLayer = await loadKmlAsLayer("/data/KML/CNX_b.kml", "#0070f3")
       const lpnLayer = await loadKmlAsLayer("/data/KML/LPN_b.kml", "#0070f3")
+      const pingLayer = await loadKml("/data/KML/ping_only.kml", "#94c6ffff", 2)
 
       // --------------------------------------------------
       // Grouped Layer Control
@@ -161,6 +170,7 @@ export default function CnxTif() {
         "พื้นที่น้ำท่วม (ต.ค. 2567)": {
           "จ.เชียงใหม่": cnxLayer,
           "จ.ลำพูน": lpnLayer,
+          "น้ำปิง": pingLayer,
         },
       }
 
