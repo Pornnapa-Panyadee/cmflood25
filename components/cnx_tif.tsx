@@ -55,12 +55,13 @@ export default function CnxTif() {
       }
 
       try {
-        pingRiver = await loadKml("/data/KML/stream.kml", "#529decff", 1.5)
+        // pingRiver = await loadKml("/data/KML/stream.kml", "#529decff", 1.5)
+        pingRiver = await loadKml("/data/KML/ping_only.kml", "#1163b9ff", 1.5)
         pingRiver_New = await loadKml("/data/KML/stream_cm.kml", "#529decff", 1.5)
         roadLayer = await loadKml("/data/KML/road.kml", "#b29e09ff", 1)
-        pingRiver.addTo(map)
-        pingRiver_New.addTo(map)
-        roadLayer.addTo(map)
+        // pingRiver.addTo(map)
+        // pingRiver_New.addTo(map)
+        // roadLayer.addTo(map)
       } catch {}
 
       try {
@@ -101,17 +102,17 @@ export default function CnxTif() {
           if (type === "blue") {
             if (norm < 0.33) {
               const t = norm / 0.33
-              return [ Math.floor(100*(1-t)+20*t), Math.floor(160*(1-t)+80*t), Math.floor(255*(1-t)+260*t) ]
+              return [Math.floor(100*(1-t)+20*t), Math.floor(160*(1-t)+80*t), Math.floor(255*(1-t)+260*t)]
             } else if (norm < 0.66) {
               const t = (norm - 0.33) / 0.33
-              return [ Math.floor(20*(1-t)+0*t), Math.floor(60*(1-t)+30*t), Math.floor(200*(1-t)+130*t) ]
+              return [Math.floor(20*(1-t)+0*t), Math.floor(60*(1-t)+30*t), Math.floor(200*(1-t)+130*t)]
             } else {
               const t = (norm - 0.66) / 0.34
-              return [ Math.floor(0*(1-t)+10*t), Math.floor(30*(1-t)+20*t), Math.floor(130*(1-t)+80*t) ]
+              return [Math.floor(0*(1-t)+10*t), Math.floor(30*(1-t)+20*t), Math.floor(130*(1-t)+80*t)]
             }
           } else {
-            if (val <= 40)  return [51, 255, 55]
-            if (val <= 80)  return [255, 255, 51]
+            if (val <= 40) return [51, 255, 55]
+            if (val <= 80) return [255, 255, 51]
             if (val <= 120) return [255, 165, 0]
             if (val <= 160) return [255, 0, 0]
             return [153, 0, 204]
@@ -149,7 +150,7 @@ export default function CnxTif() {
         }
 
         ctx.putImageData(imgData, 0, 0)
-        const bounds: L.LatLngBoundsExpression = [[minY, minX],[maxY, maxX]]
+        const bounds: L.LatLngBoundsExpression = [[minY, minX], [maxY, maxX]]
         const layer = L.imageOverlay(canvas.toDataURL(), bounds, { opacity: 0.85 })
         return { rasterLayer: layer, image: img, width: w, height: h, bbox: [minX, minY, maxX, maxY], min, max }
       }
@@ -173,7 +174,6 @@ export default function CnxTif() {
         "แผนที่ช่วงระดับน้ำท่วม": zoneMap.rasterLayer,
       }
 
-      // ✅ แก้ลำดับอาร์กิวเมนต์ให้ถูก: {} (baseLayers) ก่อน, overlays ทีหลัง
       blueMap.rasterLayer.addTo(map)
       const rasterCtl = L.control.layers(overlays, {}, { collapsed: true }).addTo(map)
 
@@ -184,16 +184,14 @@ export default function CnxTif() {
       if (poleLayer) infra["จุดระดับน้ำท่วม"] = poleLayer
       L.control.layers({}, infra, { collapsed: true, position: "topright" }).addTo(map)
 
-      // ---------- Legend (auto switch) ----------
+      // ---------- Legend ----------
       const legend = (L as any).control({ position: "bottomright" })
-
       const gradientLegend = `
         <b>ระดับน้ำท่วม (ซม.)</b><br/>
         <canvas id="grad" width="120" height="10"></canvas><br/>
         <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:-20px;">
           <span>0</span><span>150</span><span>300</span>
         </div>`
-
       const zoneLegend = `
         <b>ช่วงระดับน้ำท่วม (ซม.)</b><br/>
         <div style="display:flex;flex-direction:column;gap:2px;font-size:11px;">
@@ -203,7 +201,6 @@ export default function CnxTif() {
           <div><span style="background:#ff0000;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>120–160</div>
           <div><span style="background:#9900cc;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>>160</div>
         </div>`
-
       legend.onAdd = () => {
         const div = L.DomUtil.create("div", "info legend bg-white p-2 rounded shadow")
         div.innerHTML = gradientLegend + zoneLegend
@@ -216,15 +213,14 @@ export default function CnxTif() {
         if (!c) return
         const ctx2 = c.getContext("2d")!
         const grad = ctx2.createLinearGradient(0, 0, 120, 0)
-        grad.addColorStop(0,  "#A8D8FF")
-        grad.addColorStop(0.33,"#3399FF")
-        grad.addColorStop(0.66,"#0044CC")
-        grad.addColorStop(1,  "#001133")
+        grad.addColorStop(0, "#A8D8FF")
+        grad.addColorStop(0.33, "#3399FF")
+        grad.addColorStop(0.66, "#0044CC")
+        grad.addColorStop(1, "#001133")
         ctx2.fillStyle = grad
         ctx2.fillRect(0, 0, 120, 10)
       }
 
-      // ✅ อัปเดต Legend ตามสถานะปัจจุบันของชั้น
       function updateLegend() {
         const container = legend.getContainer()
         if (!container) return
@@ -233,26 +229,20 @@ export default function CnxTif() {
         if (!showZone) setTimeout(drawGradient, 0)
       }
 
-      // ครั้งแรก
       updateLegend()
 
-      // ✅ ใช้ e.layer เทียบกับชั้นจริง (ไม่พึ่ง e.name)
       map.on("overlayadd", (e: any) => {
-  if (e.layer === blueMap.rasterLayer) {
-    // ถ้าเปิดแผนที่ระดับน้ำท่วม → ปิดอีกอัน
-    if (map.hasLayer(zoneMap.rasterLayer)) map.removeLayer(zoneMap.rasterLayer)
-  } else if (e.layer === zoneMap.rasterLayer) {
-    // ถ้าเปิดแผนที่ช่วงระดับน้ำท่วม → ปิดอีกอัน
-    if (map.hasLayer(blueMap.rasterLayer)) map.removeLayer(blueMap.rasterLayer)
-  }
-  updateLegend()
-})
+        if (e.layer === blueMap.rasterLayer) {
+          if (map.hasLayer(zoneMap.rasterLayer)) map.removeLayer(zoneMap.rasterLayer)
+        } else if (e.layer === zoneMap.rasterLayer) {
+          if (map.hasLayer(blueMap.rasterLayer)) map.removeLayer(blueMap.rasterLayer)
+        }
+        updateLegend()
+      })
 
-map.on("overlayremove", (e: any) => {
-  if (e.layer === blueMap.rasterLayer || e.layer === zoneMap.rasterLayer) {
-    updateLegend()
-  }
-})
+      map.on("overlayremove", (e: any) => {
+        if (e.layer === blueMap.rasterLayer || e.layer === zoneMap.rasterLayer) updateLegend()
+      })
 
       // ---------- Popup ----------
       map.on("click", async (e: L.LeafletMouseEvent) => {
@@ -285,5 +275,23 @@ map.on("overlayremove", (e: any) => {
     initMap()
   }, [])
 
-  return <div id="map" className="w-full h-[80vh]" />
+  return (
+    <>
+      <div id="map" className="w-full h-[80vh]" />
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600&display=swap');
+
+        #map,
+        #map * {
+          font-family: 'Prompt', sans-serif !important;
+        }
+
+        .leaflet-popup-content-wrapper,
+        .leaflet-control,
+        .info.legend {
+          font-family: 'Prompt', sans-serif !important;
+        }
+      `}</style>
+    </>
+  )
 }
