@@ -148,7 +148,7 @@ export default function CnxTif() {
 
       const cnxLayer = await loadKmlAsLayer("/data/KML/CNX_b.kml", "#0070f3")
       const lpnLayer = await loadKmlAsLayer("/data/KML/LPN_b.kml", "#0070f3")
-      const pingLayer = await loadKml("/data/KML/ping_only.kml", "#94c6ffff", 2)
+      const pingLayer = await loadKml("/data/KML/Ping_main.kml", "#94c6ffff", 2)
 
       // --------------------------------------------------
       // Grouped Layer Control
