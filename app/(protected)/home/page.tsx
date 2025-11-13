@@ -61,7 +61,7 @@ export default function HomePage() {
           <Card className="overflow-hidden">
             <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
               <Image
-                  src="/images/banner/floodmark.png"
+                  src="/images/banner/pole.png"
                   alt="City flood map"
                   width={1000}
                   height={600}
@@ -78,7 +78,7 @@ export default function HomePage() {
           <Card className="overflow-hidden">
             <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
               <Image
-                  src="/images/banner/pole.png"
+                  src="/images/banner/floodmark.png"
                   alt="City flood map"
                   width={1000}
                   height={600}
