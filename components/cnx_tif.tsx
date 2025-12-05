@@ -59,13 +59,8 @@ export default function CnxTif() {
         // pingRiver = await loadKml("/data/KML/stream.kml", "#529decff", 1.5)
         pingRiver = await loadKml("/data/KML/Ping_main.kml", "#c3d9f2ff", 2)
         pingRiver_New = await loadKml("/data/KML/cnx_stream.kml", "#529decff", 1.5)
-<<<<<<< HEAD
-        roadLayer = await loadKml("/data/KML/cnx_road.kml", "#7b7b7aff", 1)
-        buildingLayer = await loadKml("/data/KML/cnx_building_clip1.kml", "#ffe495ff", 1)
-=======
         roadLayer = await loadKml("/data/KML/cnx_road_clip.kml", "#7b7b7aff", 1)
-        // buildingLayer = await loadKml("/data/KML/cnx_building_clip1.kml", "#ffe495ff", 1)
->>>>>>> a1b8577 (updata data)
+        buildingLayer = await loadKml("/data/KML/cnx_building_clip1.kml", "#ffe495ff", 1)
         // pingRiver.addTo(map)
         // pingRiver_New.addTo(map)
         // roadLayer.addTo(map)
@@ -190,11 +185,7 @@ export default function CnxTif() {
       if (pingRiver) infra["เส้นทางน้ำ"] = pingRiver
       if (pingRiver_New) infra["เส้นทางน้ำ(ใหม่)"] = pingRiver_New
       if (roadLayer) infra["เส้นทางถนน"] = roadLayer
-<<<<<<< HEAD
       if (buildingLayer) infra["อาคาร"] = buildingLayer
-=======
-      // if (buildingLayer) infra["อาคาร"] = buildingLayer
->>>>>>> a1b8577 (updata data)
       if (poleLayer) infra["จุดความลึกน้ำท่วม"] = poleLayer
       L.control.layers({}, infra, { collapsed: true, position: "topright" }).addTo(map)
 
