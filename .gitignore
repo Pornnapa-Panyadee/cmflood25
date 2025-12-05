@@ -25,3 +25,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+public/data/Flood4_IDW.tif
+public/data/KML/cnx_road.kml
+public/data/KML/cnx_stream.kml
+
+# Local env and OS files
+.env
+.env.local
+.DS_Store
+public/.DS_Store
+components/.DS_Store
+public/data/.DS_Store
+
+# Large / local data files
+public/data/KML/cnx_building*.kml
+public/data/floodmark/
+backup/
