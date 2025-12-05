@@ -45,6 +45,7 @@ export default function CnxTif() {
       let pingRiver_New: L.GeoJSON | null = null
       let roadLayer: L.GeoJSON | null = null
       let poleLayer: L.GeoJSON | null = null
+      let buildingLayer: L.GeoJSON | null = null
 
       const loadKml = async (url: string, color: string, weight = 1) => {
         const res = await fetch(url)
@@ -56,9 +57,10 @@ export default function CnxTif() {
 
       try {
         // pingRiver = await loadKml("/data/KML/stream.kml", "#529decff", 1.5)
-        pingRiver = await loadKml("/data/KML/ping_only.kml", "#1163b9ff", 1.5)
-        pingRiver_New = await loadKml("/data/KML/stream_cm.kml", "#529decff", 1.5)
-        roadLayer = await loadKml("/data/KML/road.kml", "#b29e09ff", 1)
+        pingRiver = await loadKml("/data/KML/Ping_main.kml", "#c3d9f2ff", 2)
+        pingRiver_New = await loadKml("/data/KML/cnx_stream.kml", "#529decff", 1.5)
+        roadLayer = await loadKml("/data/KML/cnx_road.kml", "#7b7b7aff", 1)
+        buildingLayer = await loadKml("/data/KML/cnx_building_clip1.kml", "#ffe495ff", 1)
         // pingRiver.addTo(map)
         // pingRiver_New.addTo(map)
         // roadLayer.addTo(map)
@@ -88,7 +90,7 @@ export default function CnxTif() {
       } catch {}
 
       // ---------- Raster loader ----------
-      async function loadRaster(url: string, type: "blue" | "zone") {
+      async function loadRaster(url: string, type: "blue" | "blue2" | "zone") {
         const res = await fetch(url)
         const buf = await res.arrayBuffer()
         const tiff = await fromArrayBuffer(buf)
@@ -155,11 +157,12 @@ export default function CnxTif() {
         return { rasterLayer: layer, image: img, width: w, height: h, bbox: [minX, minY, maxX, maxY], min, max }
       }
 
-      const [blueMap, zoneMap] = await Promise.all([
+      const [blueMap, blueMap2, zoneMap] = await Promise.all([
         loadRaster("/data/Idw_Fl2clip.tif", "blue"),
+        loadRaster("/data/Flood4_IDW.tif", "blue"),
         loadRaster("/data/Idw_Fl2clip.tif", "zone"),
       ])
-      if (!blueMap || !zoneMap) return
+      if (!blueMap || !blueMap2 || !zoneMap) return
 
       // ---------- Layer controls ----------
       const baseLayers = {
@@ -170,8 +173,9 @@ export default function CnxTif() {
       L.control.layers(baseLayers, {}, { collapsed: true, position: "topright" }).addTo(map)
 
       const overlays = {
-        "แผนที่ระดับน้ำท่วม": blueMap.rasterLayer,
-        "แผนที่ช่วงระดับน้ำท่วม": zoneMap.rasterLayer,
+        "แผนที่ความลึกน้ำท่วม": blueMap.rasterLayer,
+        "แผนที่ความลึกน้ำท่วม (เพิ่ม 0)": blueMap2.rasterLayer,
+        "แผนที่ช่วงความลึกน้ำท่วม": zoneMap.rasterLayer,
       }
 
       blueMap.rasterLayer.addTo(map)
@@ -181,19 +185,18 @@ export default function CnxTif() {
       if (pingRiver) infra["เส้นทางน้ำ"] = pingRiver
       if (pingRiver_New) infra["เส้นทางน้ำ(ใหม่)"] = pingRiver_New
       if (roadLayer) infra["เส้นทางถนน"] = roadLayer
-      if (poleLayer) infra["จุดระดับน้ำท่วม"] = poleLayer
+      if (buildingLayer) infra["อาคาร"] = buildingLayer
+      if (poleLayer) infra["จุดความลึกน้ำท่วม"] = poleLayer
       L.control.layers({}, infra, { collapsed: true, position: "topright" }).addTo(map)
 
       // ---------- Legend ----------
       const legend = (L as any).control({ position: "bottomright" })
-      const gradientLegend = `
-        <b>ระดับน้ำท่วม (ซม.)</b><br/>
+      const gradientLegend = `<b>ความลึกน้ำท่วม (ซม.)</b><br/>
         <canvas id="grad" width="120" height="10"></canvas><br/>
         <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:-20px;">
           <span>0</span><span>150</span><span>300</span>
         </div>`
-      const zoneLegend = `
-        <b>ช่วงระดับน้ำท่วม (ซม.)</b><br/>
+      const zoneLegend = `<b>ช่วงความลึกน้ำท่วม (ซม.)</b><br/>
         <div style="display:flex;flex-direction:column;gap:2px;font-size:11px;">
           <div><span style="background:#33ff33;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>0–40</div>
           <div><span style="background:#ffff33;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>40–80</div>
@@ -233,9 +236,14 @@ export default function CnxTif() {
 
       map.on("overlayadd", (e: any) => {
         if (e.layer === blueMap.rasterLayer) {
+          if (map.hasLayer(blueMap2.rasterLayer)) map.removeLayer(blueMap2.rasterLayer)
+          if (map.hasLayer(zoneMap.rasterLayer)) map.removeLayer(zoneMap.rasterLayer)
+        } else if (e.layer === blueMap2.rasterLayer) {
+          if (map.hasLayer(blueMap.rasterLayer)) map.removeLayer(blueMap.rasterLayer)
           if (map.hasLayer(zoneMap.rasterLayer)) map.removeLayer(zoneMap.rasterLayer)
         } else if (e.layer === zoneMap.rasterLayer) {
           if (map.hasLayer(blueMap.rasterLayer)) map.removeLayer(blueMap.rasterLayer)
+          if (map.hasLayer(blueMap2.rasterLayer)) map.removeLayer(blueMap2.rasterLayer)
         }
         updateLegend()
       })
@@ -263,7 +271,7 @@ export default function CnxTif() {
             .setLatLng(e.latlng)
             .setContent(
               `<div style="font-family:'Prompt',sans-serif;line-height:1.4;">
-                 <b>ค่าระดับน้ำท่วม:</b>
+                 <b>ค่าความลึกน้ำท่วม:</b>
                  <span style="color:blue;font-size:16px;font-weight:500;">${(+val).toFixed(0)} ซม.</span>
                </div>`
             )
@@ -277,7 +285,7 @@ export default function CnxTif() {
 
   return (
     <>
-      <div id="map" className="w-full h-[80vh]" />
+      <div id="map" className="w-full h-[100vh]" />
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600&display=swap');
 
