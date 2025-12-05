@@ -59,7 +59,7 @@ export default function CnxTif() {
         // pingRiver = await loadKml("/data/KML/stream.kml", "#529decff", 1.5)
         pingRiver = await loadKml("/data/KML/Ping_main.kml", "#c3d9f2ff", 2)
         pingRiver_New = await loadKml("/data/KML/cnx_stream.kml", "#529decff", 1.5)
-        roadLayer = await loadKml("/data/KML/cnx_road_clip.kml", "#7b7b7aff", 1)
+        roadLayer = await loadKml("/data/KML/cnx_road_clip1.kml", "#7b7b7aff", 1)
         buildingLayer = await loadKml("/data/KML/cnx_building_clip1.kml", "#ffe495ff", 1)
         // pingRiver.addTo(map)
         // pingRiver_New.addTo(map)
