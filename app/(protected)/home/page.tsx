@@ -40,7 +40,7 @@ export default function HomePage() {
         </div>
 
         {/* Feature Cards */}
-        <div className="grid gap-4 md:grid-cols-4 lg:grid-cols-4">
+        <div className="grid gap-5 md:grid-cols-5 lg:grid-cols-5">
           <Card className="overflow-hidden">
             <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
               <Image
@@ -95,7 +95,7 @@ export default function HomePage() {
           <Card className="overflow-hidden">
             <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
               <Image
-                  src="/images/banner/hazardmap.png"
+                  src="/images/banner/Flood_Depth_Map.png"
                   alt="City flood map"
                   width={1000}
                   height={600}
@@ -104,6 +104,24 @@ export default function HomePage() {
             </div>
             <CardContent>
               <Link href="/floodInterpolation">
+                <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+
+          <Card className="overflow-hidden">
+            <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+              <Image
+                  src="/images/banner/predictionmodel.png"
+                  alt="City flood map"
+                  width={1000}
+                  height={600}
+                />
+              <MapPin className="h-16 w-16 text-primary" />
+            </div>
+            <CardContent>
+              <Link href="/prediction">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>

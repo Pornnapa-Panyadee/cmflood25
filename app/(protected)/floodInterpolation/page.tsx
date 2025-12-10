@@ -28,7 +28,7 @@ export default function WaterDashboard() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPin className="h-5 w-5" />
-                  แผนที่แสดงระดับความลึกของน้ำท่วมเชิงพื้นที่ (ระดับน้ำปิง P.1 = 5.30 ม.)
+                  แผนที่แสดงความลึกของน้ำท่วมเชิงพื้นที่ (ระดับน้ำปิง P.1 = 5.30 ม.)
                 </CardTitle>
               </CardHeader>
               <CardContent>
