@@ -28,7 +28,7 @@ export function Navigation() {
     { title: "หลักระดับน้ำท่วม", href: "/pole2025", icon: Flag },
     { title: "เครื่องหมายระดับน้ำท่วมเมืองเชียงใหม่", href: "/floodmark", icon: Ruler },
     { title: "แผนที่ประมาณความลึกน้ำท่วม", href: "/floodInterpolation", icon: TrendingUp },
-    { title: "พยากรณ์ระดับน้ำ P.1", href: "/prediction", icon: LineChart },
+    { title: "พยากรณ์ระดับน้ำ P.1", href: "/prediction-P1", icon: LineChart },
   ]
 
   return (

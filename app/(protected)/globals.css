@@ -30,6 +30,9 @@
   --chart-3: oklch(0.55 0.22 25);
   --chart-4: oklch(0.6 0.12 200);
   --chart-5: oklch(0.7 0.1 180);
+  --chart-water: 200 75% 50%;        /* สีฟ้าระดับน้ำจริง */
+  --chart-prediction: 30 90% 55%;    /* สีส้มค่าพยากรณ์ */
+  --chart-grid: 210 10% 80%;         /* สีเส้น Grid */
   --radius: 0.5rem;
   --sidebar: oklch(0.99 0.005 240);
   --sidebar-foreground: oklch(0.15 0.02 240);

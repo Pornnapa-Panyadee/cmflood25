@@ -121,7 +121,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/prediction">
+              <Link href="/prediction-P1">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
