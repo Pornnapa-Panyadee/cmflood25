@@ -32,7 +32,7 @@ export function predict(inputs: number[], weights: NetworkWeights): number {
   return output;
 }
 
-export type ModelType = 'B9hr' | 'B12hr' | 'C9hr' | 'C12hr';
+export type ModelType = 'B9hr' | 'B12hr' | 'C9hr' | 'C12hr' | 'SpB9hr' | 'SpB12hr' | 'SpC9hr' | 'SpC12hr';
 
 export const modelConfigs: Record<ModelType, {
   weightsFile: string;
@@ -63,5 +63,29 @@ export const modelConfigs: Record<ModelType, {
     inputFile: '/data_prediction/C12hr.csv',
     predictionLabel: 'P1+12hr',
     inputColumns: ['P1', 'P1mv3', 'P1t-5', 'P1t-11', 'P75', 'P75mv18', 'P75t-22', 'P75t-24', 'P67', 'P67mv3', 'P67t-9', 'P67t-23', 'P67t-24', 'P20', 'P20mv20', 'P20mv22', 'P20t-1', 'P.21', 'P21mv24', 'P21t-1', 'P21t-11', 'P.103', 'P103t-1', 'P103t-14', 'P103t-24'],
+  },
+  SpB9hr: {
+    weightsFile: '/model/network_weights_biases_9_Sp_B1.json',
+    inputFile: '/data_prediction/SpB9hr.csv',
+    predictionLabel: 'P1+9hr',
+    inputColumns: ['P1', 'P1mv4', 'P1t-5', 'P1t-13', 'P75', 'P67', 'P67mv5', 'P20', 'P20mv3', 'P.21'],
+  },
+  SpB12hr: {
+    weightsFile: '/model/network_weights_biases_12_Sp_B1.json',
+    inputFile: '/data_prediction/SpB12hr.csv',
+    predictionLabel: 'P1+12hr',
+    inputColumns: ['P1', 'P1mv4', 'P75', 'P75mv18', 'P75t-24', 'P67', 'P67mv5', 'P20', 'P.21', 'P21t-12'],
+  },
+  SpC9hr: {
+    weightsFile: '/model/network_weights_biases_9_SpC1.json',
+    inputFile: '/data_prediction/SpC9hr.csv',
+    predictionLabel: 'P1+9hr',
+    inputColumns: ['P1', 'P1mv3', 'P1t-5', 'P1t-13', 'P75', 'P67', 'P67mv5', 'P20', 'P20mv2', 'P.21', 'P.103'],
+  },
+  SpC12hr: {
+    weightsFile: '/model/network_weights_biases_12_Sp_C1.json',
+    inputFile: '/data_prediction/SpC12hr.csv',
+    predictionLabel: 'P1+12hr',
+    inputColumns: ['P1', 'P1mv3', 'P75', 'P75mv18', 'P75t-24', 'P67', 'P67mv3', 'P20', 'P.21', 'P21t-11', 'P.103'],
   },
 };

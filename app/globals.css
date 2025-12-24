@@ -32,6 +32,9 @@
   --chart-5: oklch(0.7 0.1 180);
   --chart-water: 200 75% 50%;
   --chart-prediction: 30 90% 55%;  /* ต้องมีอันนี้ */
+  --chart-c9: 270 70% 55%;   
+  --chart-c12: 70 70% 55%;   
+  --chart-b12: 100 70% 55%;   
   --chart-grid: 210 10% 80%;
   --radius: 0.5rem;
   --sidebar: oklch(0.99 0.005 240);

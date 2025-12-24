@@ -29,11 +29,16 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function Index() {
   const { toast } = useToast();
+
   const [waterData, setWaterData] = useState<WaterLevelData[]>([]);
+  const [b9Data, setB9Data] = useState<WaterLevelData[]>([]);
+  const [c9Data, setC9Data] = useState<WaterLevelData[]>([]);
+  const [c12Data, setC12Data] = useState<WaterLevelData[]>([]);
+  const [b12Data, setB12Data] = useState<WaterLevelData[]>([]);
+  const [realData, setRealData] = useState<WaterLevelData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedModel, setSelectedModel] = useState<ModelType | null>(
-    null
-  );
+
+  const [selectedModel, setSelectedModel] = useState<ModelType | null>(null);
   const [inputData, setInputData] = useState<Record<string, number>>({});
   const [inputColumns, setInputColumns] = useState<string[]>([]);
   const [prediction, setPrediction] = useState<{
@@ -43,19 +48,39 @@ export default function Index() {
   } | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
 
-  // Load P1 data
+  // Load P1 data + B9 + C9
   useEffect(() => {
     async function loadData() {
       try {
-        const response = await fetch("/data_prediction/p1.csv");
-        const text = await response.text();
-        const data = parseP1CSV(text);
-        setWaterData(data);
+        const [r68, rB9, rC9, rC12, rB12, r68real] = await Promise.all([
+          fetch("/data_prediction/p1_68.csv"),
+          fetch("/data_prediction/sp/P1_B9.csv"),
+          fetch("/data_prediction/sp/P1_C9.csv"),
+          fetch("/data_prediction/sp/P1_C12.csv"),
+          fetch("/data_prediction/sp/P1_B12.csv"),
+          fetch("/data_prediction/sp/P1_real.csv"),
+        ]);
+
+        const [t68, tB9, tC9, tC12, tB12, t68real] = await Promise.all([
+          r68.text(),
+          rB9.text(),
+          rC9.text(),
+          rC12.text(),
+          rB12.text(),
+          r68real.text(),
+        ]);
+
+        setWaterData(parseP1CSV(t68));
+        setB9Data(parseP1CSV(tB9));
+        setC9Data(parseP1CSV(tC9));
+        setC12Data(parseP1CSV(tC12));
+        setB12Data(parseP1CSV(tB12));
+        setRealData(parseP1CSV(t68real));
       } catch (error) {
         console.error("Error loading P1 data:", error);
         toast({
           title: "ข้อผิดพลาด",
-          description: "ไม่สามารถโหลดข้อมูล P1 ได้",
+          description: "ไม่สามารถโหลดข้อมูล P1/B9/C9 ได้",
           variant: "destructive",
         });
       } finally {
@@ -78,9 +103,7 @@ export default function Index() {
         const filtered: Record<string, number> = {};
         config.inputColumns.forEach((col) => {
           const value = data[col];
-          if (typeof value === "number") {
-            filtered[col] = value;
-          }
+          if (typeof value === "number") filtered[col] = value;
         });
 
         setInputData(filtered);
@@ -112,21 +135,13 @@ export default function Index() {
 
     setIsPredicting(true);
     const config = modelConfigs[selectedModel];
-
-    // Determine prediction hours from model type
     const predictionHours = selectedModel.includes("9") ? 9 : 12;
 
     try {
-      // Load weights
       const weightsResponse = await fetch(config.weightsFile);
       const weights: NetworkWeights = await weightsResponse.json();
 
-      // Prepare inputs in correct order
-      const inputs = config.inputColumns.map(
-        (col) => inputData[col] || 0
-      );
-
-      // Run prediction
+      const inputs = config.inputColumns.map((col) => inputData[col] || 0);
       const result = predict(inputs, weights);
 
       setPrediction({
@@ -137,9 +152,7 @@ export default function Index() {
 
       toast({
         title: "พยากรณ์สำเร็จ",
-        description: `${config.predictionLabel}: ${result.toFixed(
-          3
-        )} ม.`,
+        description: `${config.predictionLabel}: ${result.toFixed(3)} ม.`,
       });
     } catch (error) {
       console.error("Prediction error:", error);
@@ -169,7 +182,6 @@ export default function Index() {
       <Header />
 
       <main className="container mx-auto px-4 py-8 space-y-8">
-        {/* แถวบน: กราฟระดับน้ำ P1 (การ์ดใหญ่เต็มแถว) */}
         <Card className="glass-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -181,18 +193,23 @@ export default function Index() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <WaterLevelChart data={waterData} prediction={prediction} />
+            <WaterLevelChart
+              data={waterData}
+              b9Data={b9Data}
+              c9Data={c9Data}
+              c12Data={c12Data}
+              b12Data={b12Data}
+              realData={realData}
+              prediction={prediction}
+            />
           </CardContent>
         </Card>
 
-        {/* แถวล่าง: layout แบบ 3 คอลัมน์ตามภาพที่แนบ */}
+        {/* layout ล่างเหมือนเดิม */}
         <section className="grid gap-6 md:grid-cols-4 items-start">
-          {/* ซ้าย: เลือก Model พยากรณ์ */}
           <Card className="glass-card md:col-span-1">
             <CardHeader>
-              <CardTitle className="text-base">
-                เลือก Model พยากรณ์
-              </CardTitle>
+              <CardTitle className="text-base">เลือก Model พยากรณ์</CardTitle>
             </CardHeader>
             <CardContent className="pt-4">
               <ModelSelector
@@ -203,37 +220,25 @@ export default function Index() {
             </CardContent>
           </Card>
 
-          {/* กลาง: ข้อมูล Input (แก้ไขได้) */}
           <Card className="glass-card md:col-span-2">
             <CardHeader>
-              <CardTitle className="text-base">
-                ข้อมูล Input (แก้ไขได้)
-              </CardTitle>
+              <CardTitle className="text-base">ข้อมูล Input (แก้ไขได้)</CardTitle>
             </CardHeader>
             <CardContent className="pt-4">
               {selectedModel && inputColumns.length > 0 ? (
-                <InputDataEditor
-                  columns={inputColumns}
-                  data={inputData}
-                  onChange={handleInputChange}
-                />
+                <InputDataEditor columns={inputColumns} data={inputData} onChange={handleInputChange} />
               ) : (
                 <div className="text-sm text-muted-foreground text-center py-10">
-                  กรุณาเลือก Model พยากรณ์ทางด้านซ้าย
-                  เพื่อโหลดข้อมูล Input
+                  กรุณาเลือก Model พยากรณ์ทางด้านซ้ายเพื่อโหลดข้อมูล Input
                 </div>
               )}
             </CardContent>
           </Card>
 
-          {/* ขวา: การ์ดเล็ก 2 ใบ (ปุ่มพยากรณ์ + ผลการพยากรณ์) */}
           <div className="md:col-span-1 space-y-6">
-            {/* การ์ดปุ่มพยากรณ์ */}
             <Card className="glass-card">
               <CardHeader>
-                <CardTitle className="text-base text-center">
-                  พยากรณ์
-                </CardTitle>
+                <CardTitle className="text-base text-center">พยากรณ์</CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="flex justify-center">
@@ -252,9 +257,7 @@ export default function Index() {
                       <>
                         <RefreshCw className="w-4 h-4" />
                         {selectedModel
-                          ? `พยากรณ์ ${
-                              modelConfigs[selectedModel].predictionLabel
-                            }`
+                          ? `พยากรณ์ ${modelConfigs[selectedModel].predictionLabel}`
                           : "เลือก Model ก่อนพยากรณ์"}
                       </>
                     )}
@@ -263,20 +266,13 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            {/* การ์ดผลการพยากรณ์ */}
             <Card className="glass-card">
               <CardHeader>
-                <CardTitle className="text-base text-center">
-                  ผลการพยากรณ์
-                </CardTitle>
+                <CardTitle className="text-base text-center">ผลการพยากรณ์</CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
                 {prediction ? (
-                  <PredictionResult
-                    label={prediction.label}
-                    value={prediction.value}
-                    modelName={selectedModel!}
-                  />
+                  <PredictionResult label={prediction.label} value={prediction.value} modelName={selectedModel!} />
                 ) : (
                   <div className="text-sm text-muted-foreground text-center py-6">
                     ยังไม่มีผลการพยากรณ์
