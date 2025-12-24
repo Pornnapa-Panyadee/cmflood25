@@ -53,7 +53,7 @@ export default function Index() {
     async function loadData() {
       try {
         const [r68, rB9, rC9, rC12, rB12, r68real] = await Promise.all([
-          fetch("/data_prediction/p1_68.csv"),
+          fetch("/data_prediction/P1_68.csv"),
           fetch("/data_prediction/sp/P1_B9.csv"),
           fetch("/data_prediction/sp/P1_C9.csv"),
           fetch("/data_prediction/sp/P1_C12.csv"),
