@@ -1,0 +1,321 @@
+{
+  "type": "FeatureCollection",
+  "name": "shelter_points",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 1,
+        "Place": "จุด 3 วัดสันเหมืองประชาราม อ.แม่ริม",
+        "Description": "วัดสันเหมืองประชาราม หมู่ที่ 7 ต.ดอนแก้ว อ.แม่ริม"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9736231, 18.8543364] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 2,
+        "Place": "จุด 5 โรงเรียนราชประชานุเคราะห์ 60 อ.แม่ริม",
+        "Description": "รองรับได้ 300 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9655614, 18.8534571] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 3,
+        "Place": "จุด 7 เทศบาลตำบลสันทรายหลวง อ.สันทราย",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0430624, 18.8379866] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 4,
+        "Place": "จุด 11 วัดศรีบุญเรือง (หนองหอย) อ.เมืองเชียงใหม่",
+        "Description": "รองรับได้ 130 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9996266, 18.7536152] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 5,
+        "Place": "จุด 12 สุสานป่ายาง อ.เมืองเชียงใหม่",
+        "Description": "รองรับได้ 50 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0032714, 18.7576246] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 6,
+        "Place": "จุด 13 เทศบาลตำบลหนองหอย อ.เมืองเชียงใหม่",
+        "Description": "รองรับได้ 50 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0032099, 18.7529552] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 7,
+        "Place": "จุด 14 ศาลาเอนกประสงค์เทศบาลป่าแดด",
+        "Description": "บ้านป่าแดดกลาง อ.เมืองเชียงใหม่"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9880792, 18.7402584] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 8,
+        "Place": "จุด 15 เทศบาลตำบลท่าศาลา อ.เมืองเชียงใหม่",
+        "Description": "รองรับได้ 150 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.036998, 18.7700728] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 9,
+        "Place": "จุด 16 ศาลาบ้านเกาะกลางป่าแดด หมู่ 8 อ.เมืองเชียงใหม่",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [98.984015, 18.7415252] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 10,
+        "Place": "จุด 17 กองร้อยอาสารักษาดินแดน จังหวัดเชียงใหม่ ที่ 1",
+        "Description": "รองรับได้ 80 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9731576, 18.8231325] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 11,
+        "Place": "จุด 18 โรงแรมศิรินาถ การ์เด้น อ.เมืองเชียงใหม่",
+        "Description": "รองรับได้ 100 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9594519, 18.7820347] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 12,
+        "Place": "จุด 19 ศูนย์ฟื้นฟูและส่งเสริมคุณภาพชีวิตผู้สูงอายุและผู้พิการ",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9447606, 18.7439267] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 13,
+        "Place": "จุด 20 สนามสมโภช 700 ปี อ.เมืองเชียงใหม่",
+        "Description": "รองรับได้ 400 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9592984, 18.8397593] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 14,
+        "Place": "จุด 21 ร้านท้อแสงทองเชียงใหม่ อ.สารภี",
+        "Description": "รองรับได้ 50 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0366593, 18.7410021] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 15,
+        "Place": "จุด 22 สวนธรรมบุญถาวร อ.สารภี",
+        "Description": "รองรับได้ 100 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0546471, 18.727974] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 16,
+        "Place": "จุด 23 โรงเรียนสืบนทีธรรม อ.สารภี",
+        "Description": "รองรับได้ 100 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9894577, 18.7328307] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 17,
+        "Place": "จุด 24 เทศบาลตำบลหนองผึ้ง อ.สารภี",
+        "Description": "เทศบาลตำบลหนองผึ้ง (อาคารหลังเก่า) รองรับได้ 30 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0134044, 18.7435672] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 18,
+        "Place": "จุด 25 รพ.สต.บ้านบวกครกเหนือ อ.สารภี",
+        "Description": "*กลุ่มเปราะบาง รองรับได้ 60 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0037763, 18.7155235] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 19,
+        "Place": "จุด 26 รพ.สต.ยางเนิ้ง อ.สารภี",
+        "Description": "*ผู้ป่วยติดเตียง"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0310986, 18.7166461] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 20,
+        "Place": "จุด 27 เทศบาลตำบลไชยสถาน อ.สารภี",
+        "Description": "*ผู้ป่วยติดเตียง"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0407936, 18.7349486] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 21,
+        "Place": "จุด 28 โรงเรียนสารภีพิทยาคม",
+        "Description": "รองรับได้ 1"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0325596, 18.7128496] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 22,
+        "Place": "จุด 29 ศูนย์การแพทย์แผนไทยหนองผึ้ง อ.สารภี",
+        "Description": "รองรับได้ 400 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0359453, 18.7132711] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 23,
+        "Place": "จุด 30 วิทยาลัยเทคนิคสารภี",
+        "Description": "รองรับได้ 50 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0242075, 18.7259846] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 24,
+        "Place": "จุด 32 สำนักงานเทศบาลเมืองต้นเปา",
+        "Description": "รองรับได้ 50 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [99.0784477, 18.7592365] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 25,
+        "Place": "จุด 33 ศูนย์พัฒนาคุณภาพชีวิตผู้สูงอายุบ้านป่าลาน อ.หางดง",
+        "Description": "รองรับได้ 30 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.918857, 18.6892607] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 26,
+        "Place": "จุด 34 ศูนย์การเรียนรู้บ้านป่าเป้า อ.หางดง",
+        "Description": "รองรับผู้ป่วยติดเตียง 24 เตียง"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9554764, 18.6146112] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 27,
+        "Place": "จุด 35 องค์การบริหารส่วนตำบลสบแม่ข่า อ.หางดง",
+        "Description": "รองรับผู้ป่วยติดเตียง 20 เตียง"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9768014, 18.6781929] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 28,
+        "Place": "จุด 36 องค์การบริหารส่วนตำบลขุนคง อ.หางดง",
+        "Description": "รองรับผู้ป่วยติดเตียง 40 เตียง"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9458807, 18.6742711] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 29,
+        "Place": "จุด 37 บ้านท่าขุนคง หมู่ 7 อ.หางดง",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9639999, 18.6584884] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 30,
+        "Place": "จุด 44 โรงพยาบาลมหาราชนครเชียงใหม่",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9745808, 18.789644] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 31,
+        "Place": "จุด 45 โรงพยาบาลประสาทเชียงใหม่",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9694606, 18.7898057] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 32,
+        "Place": "จุด 46 โรงพยาบาลสวนปรุง",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [98.979216, 18.7808952] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 33,
+        "Place": "จุด 47 สถานสงเคราะห์เด็กชายบ้านเชียงใหม่",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [98.966366, 18.8567583] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 34,
+        "Place": "จุด 48 บ้านพักเด็กและครอบครัวเชียงใหม่",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9643936, 18.8555597] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 35,
+        "Place": "จุด 50 ศูนย์พัฒนากาฯ ผู้สูงอายุบ้านธรรมปกรณ์ (เชียงใหม่)",
+        "Description": null
+      },
+      "geometry": { "type": "Point", "coordinates": [98.9925432, 18.7821688] }
+    }
+  ]
+}

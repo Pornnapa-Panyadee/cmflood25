@@ -6,7 +6,7 @@
 </Schema>
 <Folder><name>clipped</name>
   <Placemark id="clipped.1">
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><color>7f1d4ed8</color><fill>1</fill><outline>0</outline></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#clipped">
 		<SimpleData name="id">1</SimpleData>
 	</SchemaData></ExtendedData>
