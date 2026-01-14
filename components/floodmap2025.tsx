@@ -150,7 +150,7 @@ export default function CnxTif() {
 
       // --------------------------------------------------
       const parkingIcon = L.icon({
-        iconUrl: "/images/icons/parking_v1.png",
+        iconUrl: "/images/icons/parking_v2.png",
         iconSize: [28, 28],
         iconAnchor: [14, 28],
         popupAnchor: [0, -26],
@@ -191,29 +191,38 @@ export default function CnxTif() {
 
             // Google Maps directions: origin = current location (implicit)
             const gmapUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`
+            const headerHtml =
+            layerName.includes("ที่จอดรถ")
+              ? `<div class="popup-header parking">🚗 ที่จอดรถ</div>`
+              : `<div class="popup-header shelter">🏠 ศูนย์พักพิงชั่วคราว</div>`
 
-            const popupHtml = `
-              <div class="popup-wrap">
-                <div class="popup-title">${escapeHtml(place)}</div>
+          const popupHtml = `
+            <div class="popup-wrap">
+              <div class="popup-title">${headerHtml}</div> <hr>
 
-                <div class="popup-row"><b>Location:</b> ${
-                  locationText ? escapeHtml(locationText) : escapeHtml(`POINT (${lng} ${lat})`)
-                }</div>
-                <div class="popup-row"><b>Description:</b> ${escapeHtml(desc)}</div>
+              <div class="popup-title">${escapeHtml(place)}</div>
 
-                ${
-                  count !== null && count !== undefined && String(count).trim() !== ""
-                    ? `<div class="popup-row"><b>Count:</b> ${escapeHtml(count)}</div>`
-                    : ""
-                }
+              
 
-                <div class="popup-actions">
-                  <a class="popup-btn" href="${gmapUrl}" target="_blank" rel="noopener noreferrer">
-                    Google Maps
-                  </a>
-                </div>
+              <div class="popup-row">
+                <b>รายละเอียด:</b> ${escapeHtml(desc)}
               </div>
-            `
+
+              ${
+                count !== null && count !== undefined && String(count).trim() !== ""
+                  ? `<div class="popup-row"><b>Count:</b> ${escapeHtml(count)}</div>`
+                  : ""
+              }
+
+              <div class="popup-actions">
+                <a class="popup-btn" href="${gmapUrl}" target="_blank" rel="noopener noreferrer">
+                  📍 Google Maps
+                </a>
+              </div>
+            </div>
+          `
+
+
 
             lyr.bindPopup(popupHtml, { maxWidth: 340 })
           },
@@ -357,7 +366,7 @@ export default function CnxTif() {
         .popup-actions{ margin-top: 10px; }
         .popup-btn{
           display:inline-block;
-          background:#b4bdd4;
+          background:#c8d5faff;
           color:#fff;
           padding:6px 10px;
           border-radius:10px;
