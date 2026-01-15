@@ -150,7 +150,7 @@ export default function CnxTif() {
 
       // --------------------------------------------------
       const parkingIcon = L.icon({
-        iconUrl: "/images/icons/parking_v2.png",
+        iconUrl: "/images/icons/parking_v3.png",
         iconSize: [28, 28],
         iconAnchor: [14, 28],
         popupAnchor: [0, -26],
@@ -210,7 +210,7 @@ export default function CnxTif() {
 
               ${
                 count !== null && count !== undefined && String(count).trim() !== ""
-                  ? `<div class="popup-row"><b>Count:</b> ${escapeHtml(count)}</div>`
+                  ? `<div class="popup-row"><b>รองรับ:</b> ${escapeHtml(count)}</div>`
                   : ""
               }
 
