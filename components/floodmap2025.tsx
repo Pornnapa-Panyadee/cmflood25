@@ -307,8 +307,8 @@ export default function CnxTif() {
       pingRiver_New.addTo(map)
 
       // ✅ show points by default
-      parkingLayer.addTo(map)
-      shelterLayer.addTo(map)
+      // parkingLayer.addTo(map)
+      // shelterLayer.addTo(map)
 
       // ✅ fitBounds แบบ “ชัวร์” (หลัง invalidateSize)
       const fg = L.featureGroup([
