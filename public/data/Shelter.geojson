@@ -115,7 +115,7 @@
       "properties": {
         "No": 13,
         "Place": "สนามสมโภช 700 ปี อ.เมืองเชียงใหม่",
-        "Description": "รองรับได้ 1000 คน"
+        "Description": "รองรับได้ 10,000 คน"
       },
       "geometry": { "type": "Point", "coordinates": [98.9592984, 18.8397593] }
     },
@@ -149,15 +149,6 @@
     {
       "type": "Feature",
       "properties": {
-        "No": 17,
-        "Place": "เทศบาลตำบลหนองผึ้ง อ.สารภี",
-        "Description": "เทศบาลตำบลหนองผึ้ง (อาคารหลังเก่า) รองรับได้ 30 คน"
-      },
-      "geometry": { "type": "Point", "coordinates": [99.0134044, 18.7435672] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "No": 18,
         "Place": "รพ.สต.บ้านบวกครกเหนือ อ.สารภี",
         "Description": "*กลุ่มเปราะบาง รองรับได้ 60 คน"
@@ -187,7 +178,7 @@
       "properties": {
         "No": 21,
         "Place": "โรงเรียนสารภีพิทยาคม",
-        "Description": "รองรับได้ 1000 คน"
+        "Description": "รองรับได้ 1,000 คน"
       },
       "geometry": { "type": "Point", "coordinates": [99.0325596, 18.7128496] }
     },
@@ -340,7 +331,7 @@
       "properties": {
         "No": 43,
         "Place": "สนามกีฬาเทศบาลนครเชียงใหม่",
-        "Description": "รองรับได้ 3000 คน"
+        "Description": "รองรับได้ 3,000 คน"
       },
       "geometry": { "type": "Point", "coordinates": [ 98.989422,18.800795] }
     },
@@ -349,9 +340,18 @@
       "properties": {
         "No": 44,
         "Place": "หอประชุมมหาวิทยาลัยเชียงใหม่",
-        "Description": "รองรับได้ 3000 คน"
+        "Description": "รองรับได้ 3,000 คน"
       },
       "geometry": { "type": "Point", "coordinates": [98.966425,18.792655] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "No": 45,
+        "Place": "ศูนย์ประชุมและแสดงสินค้านานาชาติเชียงใหม่",
+        "Description": "รองรับได้ 10,000 คน"
+      },
+      "geometry": { "type": "Point", "coordinates": [98.961044,18.826907] }
     }
   ]
 }
