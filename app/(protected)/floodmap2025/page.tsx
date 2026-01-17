@@ -16,12 +16,12 @@ export default function WaterDashboard() {
       description:
         "แสดงขอบเขตของพื้นที่น้ำท่วม 5 ระดับ เทียบกับค่าระดับน้ำของแม่น้ำปิงที่สถานี P.1 เท่ากับ 4.30, 4.50, 4.70, 5.00 และ 5.30 เมตร ตามลำดับ โดยน้ำจะเริ่มล้นตลิ่งเมื่อ P.1 มากกว่า 4.20 เมตร",
       images: [
-        { id: 1, url: "/images/flood/levelflood2025/Level1_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 1" },
-        { id: 2, url: "/images/flood/levelflood2025/Level2_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 2" },
-        { id: 3, url: "/images/flood/levelflood2025/Level3_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 3" },
-        { id: 4, url: "/images/flood/levelflood2025/Level4_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 4" },
-        { id: 5, url: "/images/flood/levelflood2025/Level5_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 5" },
-        { id: 6, url: "/images/flood/levelflood2025/Sum_5Level.jpg", title: "แผนที่พื้นที่น้ำท่วมรวม 5 ระดับ" },
+        { id: 1, url: "/images/flood/levelflood2025/level1_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 1" },
+        { id: 2, url: "/images/flood/levelflood2025/level2_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 2" },
+        { id: 3, url: "/images/flood/levelflood2025/level3_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 3" },
+        { id: 4, url: "/images/flood/levelflood2025/level4_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 4" },
+        { id: 5, url: "/images/flood/levelflood2025/level5_v2.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 5" },
+        { id: 6, url: "/images/flood/levelflood2025/sum_5Level.jpg", title: "แผนที่พื้นที่น้ำท่วมรวม 5 ระดับ" },
       ],
     },
   ]
