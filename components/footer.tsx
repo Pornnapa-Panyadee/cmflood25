@@ -1,6 +1,11 @@
 export function Footer() {
   const partners = [
     {
+      name: "สำนักงานทรัพยากรน้ำแห่งชาติ",
+      link: "https://www.onwr.go.th/",
+      logo: "/images/logo/สทนช.png",
+    },
+    {
       name: "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
       link: "https://www.mhesi.go.th/",
       logo: "/images/logo/HESRI.png",
@@ -16,15 +21,26 @@ export function Footer() {
       logo: "/images/logo/NRCT.png",
     },
     {
+      name: "กรมป้องกันและบรรเทาสาธารณภัย",
+      link: "https://www.disaster.go.th/",
+      logo: "/images/logo/ปภ.jpg",
+    },
+    {
       name: "มหาวิทยาลัยเชียงใหม่",
       link: "https://www.cmu.ac.th/",
       logo: "/images/logo/cmu.png",
+    },
+    {
+      name: "กรมชลประทาน",
+      link: "https://www.rid.go.th/index.php/th/",
+      logo: "/images/logo/กรมชล.png",
     },
     {
       name: "จังหวัดเชียงใหม่",
       link: "https://www.chiangmai.go.th/",
       logo: "/images/logo/cm.jpg",
     },
+    
   ]
 
   return (
