@@ -21,7 +21,7 @@ export default function WaterDashboard() {
         { id: 3, url: "/images/flood/levelflood2025/level3_v3.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 3" },
         { id: 4, url: "/images/flood/levelflood2025/level4_v3.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 4" },
         { id: 5, url: "/images/flood/levelflood2025/level5_v3.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 5" },
-        { id: 6, url: "/images/flood/levelflood2025/sum5Levelv3.jpg", title: "แผนที่พื้นที่น้ำท่วมรวม 5 ระดับ" },
+        { id: 6, url: "/images/flood/levelflood2025/sum5Level_v3.jpg", title: "แผนที่พื้นที่น้ำท่วมรวม 5 ระดับ" },
       ],
     },
   ]
