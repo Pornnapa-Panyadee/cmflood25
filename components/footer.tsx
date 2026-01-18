@@ -40,7 +40,6 @@ export function Footer() {
       link: "https://www.chiangmai.go.th/",
       logo: "/images/logo/cm.jpg",
     },
-    
   ]
 
   return (
@@ -53,7 +52,7 @@ export function Footer() {
             </h3>
           </div>
 
-          {/* 🔹 แสดงโลโก้ */}
+          {/* 🔹 แสดงโลโก้ (ไม่มีกรอบวงกลมแล้ว) */}
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
             {partners.map((partner) => (
               <a
@@ -63,13 +62,15 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="flex flex-col items-center gap-2 group cursor-pointer transition-transform hover:scale-105"
               >
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white shadow-sm flex items-center justify-center border border-primary/20 group-hover:border-primary/40 transition">
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    className="max-w-[80%] max-h-[80%] object-contain"
-                  />
-                </div>
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  className={`object-contain transition ${
+                    partner.name === "มหาวิทยาลัยเชียงใหม่"
+                      ? "w-24 h-24 md:w-28 md:h-32"   // ✅ CMU ใหญ่ขึ้น
+                      : "w-16 h-16 md:w-20 md:h-18"   // โลโก้อื่นปกติ
+                  }`}
+                />
               </a>
             ))}
           </div>
@@ -79,4 +80,4 @@ export function Footer() {
   )
 }
 
-export default Footer   // ✅ เพิ่มบรรทัดนี้
+export default Footer

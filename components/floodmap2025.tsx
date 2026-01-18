@@ -160,14 +160,6 @@ export default function CnxTif() {
         iconAnchor: [16, 32],
         popupAnchor: [0, -30],
       })
-
-      const pumpIcon = L.icon({
-        iconUrl: "/images/icons/pump.png",
-        iconSize: [28, 28],
-        iconAnchor: [14, 28],
-        popupAnchor: [0, -26],
-      })
-
       const stationIcon = L.icon({
         iconUrl: "/images/icons/station.png",
         iconSize: [50, 50],
@@ -244,59 +236,6 @@ export default function CnxTif() {
         return layer
       }
 
-      const loadPumpPointsLayer = async (url: string) => {
-      const res = await fetch(url)
-      if (!res.ok) throw new Error(`Fetch failed: ${url} (${res.status})`)
-      const geojson = await res.json()
-
-      const layer = L.geoJSON(geojson, {
-        pane: "poiPane",
-        pointToLayer: (_feature, latlng) => L.marker(latlng, { icon: pumpIcon }),
-        onEachFeature: (feature, lyr) => {
-          const props: any = (feature as any)?.properties ?? {}
-
-          // รองรับชื่อคอลัมน์หลายแบบ (เผื่อ excel แปลก)
-          const agency = props.agency ?? props.Agency ?? props["หน่วยงาน"] ?? "-"
-          const pid = props.id ?? props.ID ?? props["รหัส"] ?? props["จุด"] ?? "-"
-          const location = props.location ?? props.Location ?? props["สถานที่ตั้ง"] ?? "-"
-          const area = props.area ?? props.Area ?? props["พื้นที่"] ?? "-"
-          const machine = props.machine_count ?? props["จำนวนเครื่อง"] ?? props.count ?? props.Count ?? null
-          const capacity = props.capacity ?? props["อัตราการสูบ"] ?? null
-
-          const ll = (lyr as any).getLatLng?.()
-          const lat = ll?.lat
-          const lng = ll?.lng
-          const gmapUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`
-
-          const headerHtml = `<div class="popup-header pump">🚰 จุดเครื่องสูบน้ำ</div>`
-
-          const popupHtml = `
-            <div class="popup-wrap">
-              ${headerHtml}
-              <div class="popup-title">${escapeHtml(String(pid))}</div>
-
-              <div class="popup-row"><b>หน่วยงาน:</b> ${escapeHtml(agency)}</div>
-              <div class="popup-row"><b>สถานที่:</b> ${escapeHtml(location)}</div>
-              ${area && area !== "-" ? `<div class="popup-row"><b>พื้นที่:</b> ${escapeHtml(area)}</div>` : ""}
-
-              ${machine ? `<div class="popup-row"><b>จำนวน:</b> ${escapeHtml(machine)}</div>` : ""}
-              ${capacity ? `<div class="popup-row"><b>อัตราการสูบ:</b> ${escapeHtml(capacity)}</div>` : ""}
-
-              <div class="popup-actions">
-                <a class="popup-btn" href="${gmapUrl}" target="_blank" rel="noopener noreferrer">
-                  📍 Google Maps
-                </a>
-              </div>
-            </div>
-          `
-          ;(lyr as any).bindPopup(popupHtml, { maxWidth: 360 })
-        },
-      })
-
-      return layer
-    }
-
-
       // --------------------------------------------------
       // Flood layers
       // --------------------------------------------------
@@ -321,7 +260,6 @@ export default function CnxTif() {
         fillColor: "#86efac",
       })
 
-      const pumpLayer = await loadPumpPointsLayer("/data/pumping_points.geojson")
 
       // --------------------------------------------------
       // Grouped Layer Control
@@ -337,18 +275,17 @@ export default function CnxTif() {
         "จุดบริการ": {
           "ที่จอดรถ (Parking)": parkingLayer,
           "ศูนย์พักพิงชั่วคราว (Shelter)": shelterLayer,
-          "จุดเครื่องสูบน้ำ (Pump)": pumpLayer,
           "P.1 สะพานนวรัฐ": p1StationLayer,
         },
         "เส้นทางน้ำ": {
           "แม่น้ำ/ลำน้ำ (CNX Stream)": pingRiver_New,
         },
-        "ขอบเขตพื้นที่น้ำท่วม (ต.ค. 2567)": {
-          "ลำดับที่ 1 4.30 เมตร": OneLayer,
-          "ลำดับที่ 2 4.50 เมตร": TwoLayer,
-          "ลำดับที่ 3 4.70 เมตร": ThreeLayer,
-          "ลำดับที่ 4 5.00 เมตร": FourLayer,
-          "ลำดับที่ 5 5.30 เมตร": FiveLayer,
+        "ขอบเขตพื้นที่น้ำท่วม": {
+          "ลำดับที่ 1 (P.1=4.30 เมตร)": OneLayer,
+          "ลำดับที่ 2 (P.1=4.50 เมตร)": TwoLayer,
+          "ลำดับที่ 3 (P.1=4.70 เมตร)": ThreeLayer,
+          "ลำดับที่ 4 (P.1=5.00 เมตร)": FourLayer,
+          "ลำดับที่ 5 (P.1=5.30 เมตร)": FiveLayer,
         },
       }
 
@@ -396,7 +333,6 @@ export default function CnxTif() {
         pingRiver_New,
         parkingLayer,
         shelterLayer,
-        pumpLayer,
         p1StationLayer,
       ].forEach(addLayerToBounds)
 
