@@ -88,7 +88,7 @@ export default function CnxTif() {
                  </span></center>
                </div>`
             ),
-        }).addTo(map)
+        })
       } catch {}
 
       // ---------- Raster loader ----------
@@ -168,7 +168,8 @@ export default function CnxTif() {
 
       const [blueMap, zoneMap] = await Promise.all([
         loadRaster("/data/IDW_FloodV6_Con30clip.tif", "blue"),
-        loadRaster("/data/Idw_Fl2clip.tif", "zone"),
+        loadRaster("/data/IDW_FloodV6_Con30clip.tif", "zone"),
+        //loadRaster("/data/Idw_Fl2clip.tif", "zone"),
       ])
       if (!blueMap || !zoneMap) return
 

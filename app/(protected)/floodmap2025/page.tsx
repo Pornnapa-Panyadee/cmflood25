@@ -15,6 +15,7 @@ export default function WaterDashboard() {
       name: "แผนที่เสี่ยงภัยน้ำท่วมเขตเมือง จังหวัดเชียงใหม่ 5 ระดับ",
       description:
         "แสดงขอบเขตของพื้นที่น้ำท่วม 5 ระดับ เทียบกับค่าระดับน้ำของแม่น้ำปิงที่สถานี P.1 เท่ากับ 4.30, 4.50, 4.70, 5.00 และ 5.30 เมตร ตามลำดับ โดยน้ำจะเริ่มล้นตลิ่งเมื่อ P.1 มากกว่า 4.20 เมตร",
+      link: "#",
       images: [
         { id: 1, url: "/images/flood/levelflood2025/level1_v3.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 1" },
         { id: 2, url: "/images/flood/levelflood2025/level2_v3.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 2" },
@@ -22,6 +23,18 @@ export default function WaterDashboard() {
         { id: 4, url: "/images/flood/levelflood2025/level4_v3.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 4" },
         { id: 5, url: "/images/flood/levelflood2025/level5_v3.jpg", title: "แผนที่พื้นที่น้ำท่วมลำดับที่ 5" },
         { id: 6, url: "/images/flood/levelflood2025/sum5level_v3.jpg", title: "แผนที่พื้นที่น้ำท่วมรวม 5 ระดับ" },
+      ],
+    },
+    {
+      id: 2,
+      name: "แผนที่แสดงขอบเขตและระดับความลึกของน้ำท่วมเชิงพื้นที่",
+      description:
+        "(กรณี ระดับน้ำแม่น้ำปิงที่สถานี P.1 = 5.30 เมตร) การประมาณค่าระดับความลึกของน้ำท่วมในพื้นที่น้ำท่วมเขตเมือง จังหวัดเชียงใหม่ โดยใช้ข้อมูลสภาพกายภาพของพื้นที่และค่าระดับคราบน้ำท่วม (Flood Marks) ที่เคยเกิดขึ้นในพื้นที่ แล้วนำมาประมวลผลด้วยเทคนิคการประมาณค่าเชิงพื้นที่แบบ \"Inverse Distance Weighting (IDW)\" ซึ่งเป็นวิธีการถ่วงน้ำหนักตามระยะทางระหว่างจุดข้อมูล ช่วยให้สามารถสร้างค่าความลึกของน้ำท่วมในบริเวณที่ไม่มีข้อมูลจริงให้มีความต่อเนื่องและสอดคล้องกับลักษณะทางภูมิประเทศ",
+      link: "/flooddepth",
+      images: [
+        { id: 1, url: "/images/flood/levelflood2025/flooddepth_blue.jpg", title: "แผนที่ความลึกของน้ำท่วม" },
+        { id: 2, url: "/images/flood/levelflood2025/flooddepth_intervel.jpg", title: "แผนที่ช่วงความลึกน้ำท่วม" },
+        { id: 3, url: "/images/flood/levelflood2025/floodDepth2024.jpg", title: "แผนที่แสดงความลึกของน้ำท่วมเชิงพื้นที่ " }
       ],
     },
   ]
@@ -76,7 +89,13 @@ export default function WaterDashboard() {
                     <Card key={gallery.id} className="p-5 sm:p-6 shadow-sm">
                       <div className="mb-4">
                         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
-                          <h2 className="text-lg sm:text-xl font-semibold text-foreground">{gallery.name}</h2>
+                          <a target="_blank"
+                            href={gallery.link}
+                            className="text-lg sm:text-xl font-semibold text-foreground hover:underline hover:text-blue-800 transition"
+                          >
+                            {gallery.name}
+                          </a>
+                          {/* <h2 className="text-lg sm:text-xl font-semibold text-foreground">{gallery.name}</h2> */}
                           <Badge variant="outline" className="w-fit">
                             {gallery.images.length} ภาพ
                           </Badge>
