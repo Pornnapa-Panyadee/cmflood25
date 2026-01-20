@@ -34,7 +34,7 @@ export default function WaterDashboard() {
       images: [
         { id: 1, url: "/images/flood/levelflood2025/flooddepth_blue.jpg", title: "แผนที่ความลึกของน้ำท่วม" },
         { id: 2, url: "/images/flood/levelflood2025/flooddepth_intervel_v2.jpg", title: "แผนที่ช่วงความลึกน้ำท่วม" },
-        { id: 3, url: "/images/flood/levelflood2025/flooddepth2024_v2.png", title: "แผนที่แสดงความลึกของน้ำท่วมเชิงพื้นที่ " }
+        { id: 3, url: "/images/flood/levelflood2025/floodDepth2024_v2.png", title: "แผนที่แสดงความลึกของน้ำท่วมเชิงพื้นที่ " }
       ],
     },
   ]
