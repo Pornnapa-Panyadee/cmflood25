@@ -27,14 +27,14 @@ export default function WaterDashboard() {
     },
     {
       id: 2,
-      name: "แผนที่แสดงขอบเขตและระดับความลึกของน้ำท่วมเชิงพื้นที่",
+      name: "แผนที่ระดับความลึกของน้ำท่วมเชิงพื้นที่",
       description:
         "(กรณี ระดับน้ำแม่น้ำปิงที่สถานี P.1 = 5.30 เมตร) การประมาณค่าระดับความลึกของน้ำท่วมในพื้นที่น้ำท่วมเขตเมือง จังหวัดเชียงใหม่ โดยใช้ข้อมูลสภาพกายภาพของพื้นที่และค่าระดับคราบน้ำท่วม (Flood Marks) ที่เคยเกิดขึ้นในพื้นที่ แล้วนำมาประมวลผลด้วยเทคนิคการประมาณค่าเชิงพื้นที่แบบ \"Inverse Distance Weighting (IDW)\" ซึ่งเป็นวิธีการถ่วงน้ำหนักตามระยะทางระหว่างจุดข้อมูล ช่วยให้สามารถสร้างค่าความลึกของน้ำท่วมในบริเวณที่ไม่มีข้อมูลจริงให้มีความต่อเนื่องและสอดคล้องกับลักษณะทางภูมิประเทศ",
       link: "/flooddepth",
       images: [
         { id: 1, url: "/images/flood/levelflood2025/flooddepth_blue.jpg", title: "แผนที่ความลึกของน้ำท่วม" },
-        { id: 2, url: "/images/flood/levelflood2025/flooddepth_intervel.jpg", title: "แผนที่ช่วงความลึกน้ำท่วม" },
-        { id: 3, url: "/images/flood/levelflood2025/floodDepth2024.jpg", title: "แผนที่แสดงความลึกของน้ำท่วมเชิงพื้นที่ " }
+        { id: 2, url: "/images/flood/levelflood2025/flooddepth_intervel_v2.jpg", title: "แผนที่ช่วงความลึกน้ำท่วม" },
+        { id: 3, url: "/images/flood/levelflood2025/floodDepth2024_v2.jpg", title: "แผนที่แสดงความลึกของน้ำท่วมเชิงพื้นที่ " }
       ],
     },
   ]
@@ -91,10 +91,20 @@ export default function WaterDashboard() {
                         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
                           <a target="_blank"
                             href={gallery.link}
-                            className="text-lg sm:text-xl font-semibold text-foreground hover:underline hover:text-blue-800 transition"
+                            className="text-lg sm:text-xl font-semibold text-foreground hover:text-blue-800 transition"
                           >
-                            {gallery.name}
+                            {gallery.name} <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={gallery.link}
+                              className="inline-flex items-center justify-center px-2 py-1 text-sm rounded-md border hover:bg-muted transition"
+                              title="Open link in new tab"
+                            >
+                               ดูรายละเอียด
+                            </a>
                           </a>
+                          {/* ✅ ปุ่มลิงก์ข้างๆ */}
+                            
                           {/* <h2 className="text-lg sm:text-xl font-semibold text-foreground">{gallery.name}</h2> */}
                           <Badge variant="outline" className="w-fit">
                             {gallery.images.length} ภาพ

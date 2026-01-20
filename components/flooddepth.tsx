@@ -38,7 +38,11 @@ export default function CnxTif() {
         "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
         { maxZoom: 20, attribution: "&copy; <a href='https://carto.com/attributions'>CARTO</a> | Dark Matter" }
       )
-      darkBase.addTo(map)
+      const googleHybrid = L.tileLayer("https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", {
+        maxZoom: 20,
+        attribution: "&copy; Google Hybrid",
+      })
+      googleHybrid.addTo(map)
 
       // ---------- Vector overlays ----------
       let pingRiver: L.GeoJSON | null = null
@@ -176,6 +180,7 @@ export default function CnxTif() {
       // ---------- Layer controls ----------
       const baseLayers = {
         "Dark Matter": darkBase,
+        "ดาวเทียม + ชื่อสถานที่": googleHybrid,
         "Google Satellite": googleSat,
         "Google Terrain": googleTerrain,
       }
