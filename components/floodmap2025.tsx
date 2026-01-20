@@ -68,6 +68,10 @@ export default function CnxTif() {
         maxZoom: 20,
         attribution: " Dark Matter",
       })
+      const googleSatNoLabel = L.tileLayer("https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",{
+          maxZoom: 20,
+          attribution: "&copy; Google Satellite",
+      })
 
       // --------------------------------------------------
       // Panes
@@ -267,6 +271,7 @@ export default function CnxTif() {
       const baseLayers = {
         "ถนน (Google Road)": googleRoad,
         "ดาวเทียม + ชื่อสถานที่ (Hybrid)": googleHybrid,
+        "ดาวเทียม": googleSatNoLabel,
         "ภูมิประเทศ (Terrain)": googleTerrain,
         "แผนที่มืด (Dark Matter)": darkBase,
       }

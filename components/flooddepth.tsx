@@ -42,6 +42,7 @@ export default function CnxTif() {
         maxZoom: 20,
         attribution: "&copy; Google Hybrid",
       })
+
       googleHybrid.addTo(map)
 
       // ---------- Vector overlays ----------
@@ -179,10 +180,10 @@ export default function CnxTif() {
 
       // ---------- Layer controls ----------
       const baseLayers = {
-        "Dark Matter": darkBase,
+        "แผนที่มืด (Dark Matter)": darkBase,
         "ดาวเทียม + ชื่อสถานที่": googleHybrid,
-        "Google Satellite": googleSat,
-        "Google Terrain": googleTerrain,
+        "ดาวเทียม": googleSat,
+        "ภูมิประเทศ": googleTerrain,
       }
       L.control.layers(baseLayers, {}, { collapsed: true, position: "topright" }).addTo(map)
 
