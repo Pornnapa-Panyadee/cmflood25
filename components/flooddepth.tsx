@@ -201,7 +201,7 @@ export default function CnxTif() {
       //if (pingRiver_New) infra["เส้นทางน้ำ(ใหม่)"] = pingRiver_New
       if (roadLayer) infra["เส้นทางถนน"] = roadLayer
       //if (buildingLayer) infra["อาคาร"] = buildingLayer
-      if (poleLayer) infra["จุดความลึกน้ำท่วม"] = poleLayer
+      //if (poleLayer) infra["จุดความลึกน้ำท่วม"] = poleLayer
       L.control.layers({}, infra, { collapsed: true, position: "topright" }).addTo(map)
 
       // ---------- Legend ----------
