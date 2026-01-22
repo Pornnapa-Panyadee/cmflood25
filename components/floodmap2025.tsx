@@ -160,7 +160,7 @@ export default function CnxTif() {
 
       const shelterIcon = L.icon({
         iconUrl: "/images/icons/shelter_v1.png",
-        iconSize: [32, 32],
+        iconSize: [42, 42],
         iconAnchor: [16, 32],
         popupAnchor: [0, -30],
       })
@@ -271,7 +271,7 @@ export default function CnxTif() {
       const baseLayers = {
         "ถนน (Google Road)": googleRoad,
         "ดาวเทียม + ชื่อสถานที่ (Hybrid)": googleHybrid,
-        "ดาวเทียม": googleSatNoLabel,
+        "ดาวเทียม (Satellite)": googleSatNoLabel,
         "ภูมิประเทศ (Terrain)": googleTerrain,
         "แผนที่มืด (Dark Matter)": darkBase,
       }
@@ -343,11 +343,12 @@ export default function CnxTif() {
 
       setTimeout(() => {
         map.invalidateSize(true)
-        if (bounds.isValid()) {
-          map.fitBounds(bounds.pad(0.05))
-        } else {
-          map.setView([18.787563, 99.003968], 15)
-        }
+        map.setView([18.787563, 99.003968], 13)
+        // if (bounds.isValid()) {
+        //   map.fitBounds(bounds.pad(0.05))
+        // } else {
+        //   map.setView([18.787563, 99.003968], 15)
+        // }
       }, 250)
 
       // --------------------------------------------------
