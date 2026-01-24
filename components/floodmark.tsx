@@ -94,7 +94,7 @@ export default function CnxTif() {
       // --------------------------------------------------
       // ✅ โหลด GeoJSON
       // --------------------------------------------------
-      const res = await fetch("/data/pole.geojson")
+      const res = await fetch("/data/New_floodMark_2025_fixed_like_pole.geojson")
       const data = await res.json()
 
       const greenLayer = L.geoJSON(data, {
@@ -146,8 +146,8 @@ export default function CnxTif() {
         return L.geoJSON(geo, { style: { color, weight, opacity: 0.8 } })
       }
 
-      const cnxLayer = await loadKmlAsLayer("/data/KML/CNX_b.kml", "#0070f3")
-      const lpnLayer = await loadKmlAsLayer("/data/KML/LPN_b.kml", "#0070f3")
+      const cnxLayer = await loadKmlAsLayer("/data/KML5Layer/L5.kml", "#0070f3")
+      // const lpnLayer = await loadKmlAsLayer("/data/KML/LPN_b.kml", "#0070f3")
       const pingLayer = await loadKml("/data/KML/Ping_main.kml", "#94c6ffff", 2)
 
       // --------------------------------------------------
@@ -169,7 +169,7 @@ export default function CnxTif() {
         },
         "พื้นที่น้ำท่วม (ต.ค. 2567)": {
           "จ.เชียงใหม่": cnxLayer,
-          "จ.ลำพูน": lpnLayer,
+          // "จ.ลำพูน": lpnLayer,
           "น้ำปิง": pingLayer,
         },
       }

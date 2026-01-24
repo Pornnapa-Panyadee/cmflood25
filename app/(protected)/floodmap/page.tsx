@@ -144,6 +144,23 @@ export default function Floodmap() {
             แผนที่เสี่ยงภัยน้ำท่วม (Flood Hazard Map)
           </h3>
         </div>
+        <div className="md:col-span-4 flex justify-end mb-4">
+          <Link
+            href="/floodmap2025"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full max-w-md ml-auto"
+          >
+            <Button
+              className="w-full h-[50px] rounded-xl text-lg sm:text-xl font-semibold shadow-md"
+              variant="default"
+            >
+              แผนที่เสี่ยงภัยน้ำท่วมเขตเมือง จังหวัดเชียงใหม่
+            </Button>
+          </Link>
+        </div>
+
+      
 
        {/* Info Section */}
         <Card className="mb-4 grid gap-20 bg-muted/50">

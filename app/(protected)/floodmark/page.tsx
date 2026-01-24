@@ -36,7 +36,7 @@ export default function WaterDashboard() {
 
   useEffect(() => {
     async function loadGeoJSON() {
-      const res = await fetch("/data/pole.geojson")
+      const res = await fetch("/data/New_floodMark_2025_fixed_like_pole.geojson")
       const geojson = await res.json()
       const features = geojson.features.map((f: any) => f.properties)
       setData(features)
