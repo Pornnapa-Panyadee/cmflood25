@@ -17,23 +17,23 @@ export default function WaterDashboard() {
         "แสดงขอบเขตของพื้นที่น้ำท่วม 5 ระดับ เทียบกับค่าระดับน้ำของแม่น้ำปิงที่สถานี P.1 เท่ากับ 4.30, 4.50, 4.70, 5.00 และ 5.30 เมตร ตามลำดับ โดยน้ำจะเริ่มล้นตลิ่งเมื่อ P.1 มากกว่า 4.20 เมตร",
       link: "#",
       images: [
-        { id: 1, url: "/images/flood/levelflood2025/level1_v3.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 1" },
-        { id: 2, url: "/images/flood/levelflood2025/level2_v3.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 2" },
-        { id: 3, url: "/images/flood/levelflood2025/level3_v3.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 3" },
-        { id: 4, url: "/images/flood/levelflood2025/level4_v3.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 4" },
-        { id: 5, url: "/images/flood/levelflood2025/level5_v3.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 5" },
-        { id: 6, url: "/images/flood/levelflood2025/sum5level_v3.jpg", title: " แผนที่พื้นที่น้ำท่วมรวม 5 ระดับ" },
+        { id: 1, url: "/images/flood/levelflood2025/final/level1.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 1" },
+        { id: 2, url: "/images/flood/levelflood2025/final/level2.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 2" },
+        { id: 3, url: "/images/flood/levelflood2025/final/level3.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 3" },
+        { id: 4, url: "/images/flood/levelflood2025/final/level4.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 4" },
+        { id: 5, url: "/images/flood/levelflood2025/final/level5.jpg", title: " แผนที่พื้นที่น้ำท่วมลำดับที่ 5" },
+        { id: 6, url: "/images/flood/levelflood2025/final/sum5level.jpg", title: " แผนที่พื้นที่น้ำท่วมรวม 5 ระดับ" },
       ],
     },
     {
       id: 2,
-      name: "แผนที่ระดับความลึกของน้ำท่วมเชิงพื้นที่",
+      name: "แผนที่ความลึกของน้ำท่วมเชิงพื้นที่",
       description:
         "(กรณี ระดับน้ำแม่น้ำปิงที่สถานี P.1 = 5.30 เมตร) การประมาณค่าระดับความลึกของน้ำท่วมในพื้นที่น้ำท่วมเขตเมือง จังหวัดเชียงใหม่ โดยใช้ข้อมูลสภาพกายภาพของพื้นที่และค่าระดับคราบน้ำท่วม (Flood Marks) ที่เคยเกิดขึ้นในพื้นที่ แล้วนำมาประมวลผลด้วยเทคนิคการประมาณค่าเชิงพื้นที่แบบ \"Inverse Distance Weighting (IDW)\" ซึ่งเป็นวิธีการถ่วงน้ำหนักตามระยะทางระหว่างจุดข้อมูล ช่วยให้สามารถสร้างค่าความลึกของน้ำท่วมในบริเวณที่ไม่มีข้อมูลจริงให้มีความต่อเนื่องและสอดคล้องกับลักษณะทางภูมิประเทศ",
       link: "/flooddepth",
       images: [
-        { id: 1, url: "/images/flood/levelflood2025/flooddepth_blue.jpg", title: " แผนที่ความลึกของน้ำท่วม" },
-        { id: 2, url: "/images/flood/levelflood2025/flooddepth_intervel_v2.jpg", title: " แผนที่ช่วงความลึกน้ำท่วม" },
+        { id: 1, url: "/images/flood/levelflood2025/final/flooddepth.jpg", title: " แผนที่ความลึกของน้ำท่วม" },
+        { id: 2, url: "/images/flood/levelflood2025/final/floodinterval.jpg", title: " แผนที่ช่วงความลึกน้ำท่วม" },
         { id: 3, url: "/images/flood/levelflood2025/floodDepth2024_v2.png", title: " แผนที่แสดงความลึกของน้ำท่วมเชิงพื้นที่ " }
       ],
     },
@@ -44,9 +44,9 @@ export default function WaterDashboard() {
         "แสดงตำแหน่งศูนย์พักพิงและที่จอดรถชั่วคราวทั้งของภาครัฐและเอกชน ที่ได้จัดเตรียมไว้รองรับผู้ประสบภัยในพื้นที่เสี่ยงภัยน้ำท่วมเขตเมือง จังหวัดเชียงใหม่",
       link: "#",
       images: [
-        { id: 1, url: "/images/flood/levelflood2025/shelterandparking.jpg", title: " แผนที่ศูนย์พักพิง+ที่จอดรถ" },
-        { id: 2, url: "/images/flood/levelflood2025/shelter.jpg", title: " แผนที่ศูนย์พักพิง" },
-        { id: 3, url: "/images/flood/levelflood2025/parking.jpg", title: " แผนที่ที่จอดรถ " }
+        { id: 1, url: "/images/flood/levelflood2025/final/shelterandparking.jpg", title: " แผนที่ศูนย์พักพิง+ที่จอดรถ" },
+        { id: 2, url: "/images/flood/levelflood2025/final/shelter.jpg", title: " แผนที่ศูนย์พักพิง" },
+        { id: 3, url: "/images/flood/levelflood2025/final/parking.jpg", title: " แผนที่ที่จอดรถ " }
       ],
     },
     {
