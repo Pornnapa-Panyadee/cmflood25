@@ -65,6 +65,7 @@ export default function CnxTif() {
         const tool = feature.properties?.tool || "-"
         const pix = feature.properties?.code || "-"
         const id = feature.properties?.id|| "-"
+        // console.log("Pole ID:", poleId)
         //const imgUrl = `https://watercenter.scmc.cmu.ac.th/cmflood/flood24/image/${pix}`
         // const imgUrl = `https://watercenter.scmc.cmu.ac.th/cmflood/flood_mark_2024/${pix}_1.jpg`
         const imgUrl = `/report/${id}`
