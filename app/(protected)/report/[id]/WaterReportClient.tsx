@@ -18,7 +18,7 @@ export default function WaterReportClient({ id }: { id: string }) {
   useEffect(() => {
     async function loadData() {
       try {
-        const res = await fetch("/data/pole.geojson")
+        const res = await fetch("/data/New_floodMark_2025_fixed_like_pole.geojson")
         const geo = await res.json()
         const found = geo.features.find(
           (f: any) => String(f.properties.id) === id

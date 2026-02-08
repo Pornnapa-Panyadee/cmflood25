@@ -4,7 +4,7 @@ import WaterReportClient from "./WaterReportClient"
 
 // ✅ สร้าง static paths จาก GeoJSON
 export async function generateStaticParams() {
-  const filePath = path.join(process.cwd(), "public/data/pole.geojson")
+  const filePath = path.join(process.cwd(), "public/data/New_floodMark_2025_fixed_like_pole.geojson")
   const file = fs.readFileSync(filePath, "utf-8")
   const geojson = JSON.parse(file)
 
