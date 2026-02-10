@@ -172,7 +172,7 @@ export default function CnxTif() {
       // if (!blueMap || !blueMap2 || !zoneMap) return
 
       const [blueMap, zoneMap] = await Promise.all([
-        loadRaster("/data/IDW_FloodV6_Con30clip.tif", "blue"),
+        loadRaster("/data/IDW_FloodV6_without0clip.tif", "blue"),
         loadRaster("/data/IDW_FloodV6_Con30clip.tif", "zone"),
         //loadRaster("/data/Idw_Fl2clip.tif", "zone"),
       ])
