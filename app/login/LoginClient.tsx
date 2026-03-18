@@ -5,9 +5,6 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 
-const VALID_USER = process.env.NEXT_PUBLIC_LOGIN_USER
-const VALID_PASS_HASH = process.env.NEXT_PUBLIC_LOGIN_HASH
-
 export default function LoginClient() {
   const router = useRouter()
   const [username, setUsername] = useState("")
@@ -21,15 +18,25 @@ export default function LoginClient() {
     setIsLoading(true)
 
     try {
-      const passHash = await hashPassword(password)
-      if (username === VALID_USER && passHash === VALID_PASS_HASH) {
-        localStorage.setItem("authToken", "cmflood2025_token")
-        localStorage.setItem("username", username)
-        router.replace("/home") // ✅ ไปหน้า home
-      } else {
-        setError("❌ Username หรือ Password ไม่ถูกต้อง")
+      const passwordHash = await hashPassword(password)
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, passwordHash }),
+      })
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null)
+        setError(data?.error ?? "Username หรือ Password ไม่ถูกต้อง")
+        setIsLoading(false)
+        return
       }
-    } catch (err) {
+
+      router.replace("/home")
+      router.refresh()
+    } catch {
       setError("เกิดข้อผิดพลาดในการเข้าสู่ระบบ")
     }
 

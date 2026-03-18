@@ -2,25 +2,25 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Droplets, Map, Flag, Ruler, TrendingUp, LineChart } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function Navigation() {
   const router = useRouter()
   const pathname = usePathname()
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken")
-    setIsLoggedIn(token === "cmflood2025_token")
-  }, [])
+  const handleLogout = async () => {
+    setIsLoggingOut(true)
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken")
-    localStorage.removeItem("username")
-    setIsLoggedIn(false)
-    router.replace("/login")
+    try {
+      await fetch("/api/logout", { method: "POST" })
+    } finally {
+      router.replace("/login")
+      router.refresh()
+      setIsLoggingOut(false)
+    }
   }
 
   const navItems = [
@@ -67,24 +67,13 @@ export function Navigation() {
             })}
           </div>
 
-          {/* Login/Logout */}
-          {isLoggedIn === null ? (
-            <div className="text-gray-400 text-xs">...</div>
-          ) : isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="bg-red-600 text-white rounded-md px-3 py-1.5 text-xs font-medium hover:bg-red-700 whitespace-nowrap"
-            >
-              ออกจากระบบ
-            </button>
-          ) : (
-            <Link
-              href="/login"
-              className="bg-blue-600 text-white rounded-md px-3 py-1.5 text-xs font-medium hover:bg-blue-700 whitespace-nowrap"
-            >
-              เข้าสู่ระบบ
-            </Link>
-          )}
+          <button
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="bg-red-600 text-white rounded-md px-3 py-1.5 text-xs font-medium hover:bg-red-700 whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isLoggingOut ? "กำลังออกจากระบบ..." : "ออกจากระบบ"}
+          </button>
         </div>
       </div>
     </nav>

@@ -1,18 +1,15 @@
-"use client"
-
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 import LoginClient from "./LoginClient"
+import { getSessionCookieName, verifySessionValue } from "@/lib/auth"
 
-export default function LoginPage() {
-  const router = useRouter()
+export default async function LoginPage() {
+  const cookieStore = await cookies()
+  const sessionValue = cookieStore.get(getSessionCookieName())?.value
 
-  useEffect(() => {
-    // ถ้า login แล้ว ไม่ต้องเข้า login อีก
-    if (localStorage.getItem("isLoggedIn") === "true") {
-      router.push("/floodmap")
-    }
-  }, [router])
+  if (verifySessionValue(sessionValue)) {
+    redirect("/home")
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
