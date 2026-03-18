@@ -6,9 +6,9 @@ const SESSION_COOKIE_NAME = "cmflood_session"
 const SESSION_DURATION_SECONDS = 60 * 60 * 12
 
 function getAuthConfig() {
-  const username = process.env.LOGIN_USER
-  const passwordHash = process.env.LOGIN_HASH
-  const sessionSecret = process.env.SESSION_SECRET
+  const username = process.env.LOGIN_USER?.trim() || process.env.NEXT_PUBLIC_LOGIN_USER?.trim()
+  const passwordHash = process.env.LOGIN_HASH?.trim() || process.env.NEXT_PUBLIC_LOGIN_HASH?.trim()
+  const sessionSecret = process.env.SESSION_SECRET?.trim()
 
   if (!username || !passwordHash || !sessionSecret) {
     throw new Error("Missing auth environment variables")

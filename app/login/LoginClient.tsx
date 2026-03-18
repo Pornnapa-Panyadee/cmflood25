@@ -18,13 +18,14 @@ export default function LoginClient() {
     setIsLoading(true)
 
     try {
+      const normalizedUsername = username.trim()
       const passwordHash = await hashPassword(password)
       const response = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, passwordHash }),
+        body: JSON.stringify({ username: normalizedUsername, passwordHash }),
       })
 
       if (!response.ok) {
