@@ -150,7 +150,7 @@ export default function LeafletMap({ stations, selectedStation, onStationSelect 
               border-bottom: 2px solid ${getStatusColor(station.status)};
               padding-bottom: 6px;
             ">
-              <a href="/cmflood/station/${station.id}" target="_blank" style="
+              <a href="/chiangmai/cmflood/station/${station.id}" target="_blank" style="
                 color: #1f2937;
                 text-decoration: none;
                 cursor: pointer;

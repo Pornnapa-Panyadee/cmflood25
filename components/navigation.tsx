@@ -19,11 +19,11 @@ export function Navigation() {
   const pathname = usePathname()
 
   const navItems = [
-    { title: "แผนที่เสี่ยงภัยน้ำท่วม", href: "/cmflood/floodmap", icon: Map },
-    { title: "หลักระดับน้ำท่วม", href: "/cmflood/pole2025", icon: Flag },
-    { title: "เครื่องหมายระดับน้ำท่วมเมืองเชียงใหม่", href: "/cmflood/floodmark", icon: Ruler },
-    { title: "แผนที่ประมาณความลึกน้ำท่วม", href: "/cmflood/flooddepth", icon: TrendingUp },
-    { title: "พยากรณ์ระดับน้ำ P.1", href: "/cmflood/floodforecast", icon: LineChart },
+    { title: "แผนที่เสี่ยงภัยน้ำท่วม", href: "/chiangmai/cmflood/floodmap", icon: Map },
+    { title: "หลักระดับน้ำท่วม", href: "/chiangmai/cmflood/pole2025", icon: Flag },
+    { title: "เครื่องหมายระดับน้ำท่วมเมืองเชียงใหม่", href: "/chiangmai/cmflood/floodmark", icon: Ruler },
+    { title: "แผนที่ประมาณความลึกน้ำท่วม", href: "/chiangmai/cmflood/flooddepth", icon: TrendingUp },
+    { title: "พยากรณ์ระดับน้ำ P.1", href: "/chiangmai/cmflood/floodforecast", icon: LineChart },
   ]
 
   return (
@@ -32,7 +32,7 @@ export function Navigation() {
         <div className="flex min-h-14 items-center justify-between gap-3 py-2">
           <div className="flex items-center gap-1.5">
             <Droplets className="h-5 w-5 text-blue-600" />
-            <Link href="/cmflood" className="text-base font-bold text-blue-600 sm:text-lg">
+            <Link href="/chiangmai/cmflood" className="text-base font-bold text-blue-600 sm:text-lg">
               CM Flood
             </Link>
           </div>

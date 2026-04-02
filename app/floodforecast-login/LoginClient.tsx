@@ -35,7 +35,7 @@ export default function FloodForecastLoginClient() {
         return
       }
 
-      router.replace("/cmflood/floodforecast")
+      router.replace("/chiangmai/cmflood/floodforecast")
       router.refresh()
     } catch {
       setError("เกิดข้อผิดพลาดในการเข้าสู่ระบบ")

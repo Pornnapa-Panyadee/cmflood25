@@ -32,7 +32,7 @@ export default function WaterDashboard() {
       name: "แผนที่ความลึกของน้ำท่วมเชิงพื้นที่",
       description:
         "(กรณี ระดับน้ำแม่น้ำปิงที่สถานี P.1 = 5.30 เมตร) การประมาณค่าระดับความลึกของน้ำท่วมในพื้นที่น้ำท่วมเขตเมือง จังหวัดเชียงใหม่ โดยใช้ข้อมูลสภาพกายภาพของพื้นที่และค่าระดับคราบน้ำท่วม (Flood Marks) ที่เคยเกิดขึ้นในพื้นที่ แล้วนำมาประมวลผลด้วยเทคนิคการประมาณค่าเชิงพื้นที่แบบ \"Inverse Distance Weighting (IDW)\" ซึ่งเป็นวิธีการถ่วงน้ำหนักตามระยะทางระหว่างจุดข้อมูล ช่วยให้สามารถสร้างค่าความลึกของน้ำท่วมในบริเวณที่ไม่มีข้อมูลจริงให้มีความต่อเนื่องและสอดคล้องกับลักษณะทางภูมิประเทศ",
-      link: "/cmflood/flooddepth",
+      link: "/chiangmai/cmflood/flooddepth",
       images: [
         { id: 1, url: "/images/flood/levelflood2025/final/flooddepth.jpg", title: " แผนที่ความลึกของน้ำท่วม" },
         { id: 2, url: "/images/flood/levelflood2025/final/floodinterval.jpg", title: " แผนที่ช่วงความลึกน้ำท่วม" },
@@ -56,7 +56,7 @@ export default function WaterDashboard() {
       name: "หลักเตือนระดับน้ำท่วมเขตเมืองเชียงใหม่",
       description:
         "เสาหลักมีช่องบอกค่าตัวเลขระดับน้ำต่างๆ ที่จะเข้าท่วมพื้นที่ โดยเทียบกับค่าระดับน้ำปิงที่สถานี P.1 สะพานนวรัฐ เมื่อทราบค่าพยากรณ์ระดับน้ำปิงที่ P.1 ให้นำตัวเลขนั้นมาเทียบกับตัวเลขบนหลัก ก็จะทราบความสูงระดับน้ำที่จะท่วมบริวณที่มีหลักวางอยู่",
-      link: "/cmflood/pole2025",
+      link: "/chiangmai/cmflood/pole2025",
       images: [
         { id: 1, url: "/images/flood/levelflood2025/floodpole.jpg", title: "หลักเตือนระดับน้ำท่วมเขตเมืองเชียงใหม่" }
       ],
@@ -66,7 +66,7 @@ export default function WaterDashboard() {
       name: "เครื่องหมายระดับน้ำท่วมเขตเมือง จ.เชียงใหม่ ปี 2567",
       description:
         "FLOOD MARKS OCT. 2024 เครื่องหมายแสดงระดับน้ำท่วม เดือนตุลาคม 2567 โดยระดับน้ำปิงที่สถานี P.1 = 5.3 เมตร เพื่อการเตือนภัยสำหรับชุมชนในพื้นที่เสี่ยงภัย จำนวน 5,000 จุด ติดตั้งกระจายทั่วพื้นที่เคยเกิดน้ำท่วมในเขตเมือง จ.เชียงใหม่ และ จ.ลำพูน โดยแสดงระดับน้ำท่วมสูงสุดวัดจากผิวถนน โดยเปรียบเทียบกับค่าระดับน้ำของแม่น้ำปิงที่สถานี P.1 เชิงสะพานนวรัฐ ซึ่งเกิดน้ำท่วมใหญ่ในเดือนตุลาคม พ.ศ. 2567 โดยที่ P.1 = 5.30 เมตร",
-      link: "/cmflood/floodmark",
+      link: "/chiangmai/cmflood/floodmark",
       images: [
         { id: 1, url: "/images/flood/levelflood2025/floodmark.jpg", title: "ครื่องหมายระดับน้ำท่วมเขตเมือง" }
       ],
@@ -107,7 +107,7 @@ export default function WaterDashboard() {
 
                   <div className="flex justify-start md:justify-end">
                     <Link
-                      href="/cmflood/floodmap2557"
+                      href="/chiangmai/cmflood/floodmap2557"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex"

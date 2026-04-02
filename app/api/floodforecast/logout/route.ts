@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { getFloodForecastSessionCookieName } from "@/lib/floodforecast-auth"
 
 export async function POST(request: Request) {
-  const response = NextResponse.redirect(new URL("/cmflood/floodforecast", request.url))
+  const response = NextResponse.redirect(new URL("/chiangmai/cmflood/floodforecast", request.url))
   response.cookies.set({
     name: getFloodForecastSessionCookieName(),
     value: "",

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: 'standalone',
   images: {
     unoptimized: true,
   },
@@ -8,72 +8,82 @@ const nextConfig = {
     return [
       {
         source: '/home',
-        destination: '/cmflood',
+        destination: '/chiangmai/cmflood',
         permanent: true,
       },
       {
         source: '/floodmap',
-        destination: '/cmflood/floodmap',
+        destination: '/chiangmai/cmflood/floodmap',
         permanent: true,
       },
       {
         source: '/floodmap2557',
-        destination: '/cmflood/floodmap2557',
+        destination: '/chiangmai/cmflood/floodmap2557',
         permanent: true,
       },
       {
         source: '/pole2025',
-        destination: '/cmflood/pole2025',
+        destination: '/chiangmai/cmflood/pole2025',
         permanent: true,
       },
       {
         source: '/floodmark',
-        destination: '/cmflood/floodmark',
+        destination: '/chiangmai/cmflood/floodmark',
         permanent: true,
       },
       {
         source: '/flooddepth',
-        destination: '/cmflood/flooddepth',
+        destination: '/chiangmai/cmflood/flooddepth',
         permanent: true,
       },
       {
         source: '/floodInterpolation',
-        destination: '/cmflood/floodInterpolation',
+        destination: '/chiangmai/cmflood/floodInterpolation',
         permanent: true,
       },
       {
         source: '/floodforecast',
-        destination: '/cmflood/floodforecast',
+        destination: '/chiangmai/cmflood/floodforecast',
         permanent: true,
       },
       {
         source: '/floodforcast',
-        destination: '/cmflood/floodforecast',
+        destination: '/chiangmai/cmflood/floodforecast',
         permanent: true,
       },
       {
         source: '/prediction',
-        destination: '/cmflood/prediction',
+        destination: '/chiangmai/cmflood/prediction',
         permanent: true,
       },
       {
         source: '/support',
-        destination: '/cmflood/support',
+        destination: '/chiangmai/cmflood/support',
         permanent: true,
       },
       {
         source: '/station/:id',
-        destination: '/cmflood/station/:id',
+        destination: '/chiangmai/cmflood/station/:id',
         permanent: true,
       },
       {
         source: '/report/:id',
-        destination: '/cmflood/report/:id',
+        destination: '/chiangmai/cmflood/report/:id',
         permanent: true,
       },
       {
         source: '/floodforecast-login',
-        destination: '/cmflood/floodforecast-login',
+        destination: '/chiangmai/cmflood/floodforecast-login',
+        permanent: true,
+      },
+      {
+        source: '/cmflood',
+        destination: '/chiangmai/cmflood',
+        permanent: true,
+      },
+      {
+        source: '/cmflood/:path*',
+        destination: '/chiangmai/cmflood/:path*',
         permanent: true,
       },
     ]
@@ -81,15 +91,15 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/cmflood',
+        source: '/chiangmai/cmflood',
         destination: '/home',
       },
       {
-        source: '/cmflood/floodforecast-login',
+        source: '/chiangmai/cmflood/floodforecast-login',
         destination: '/floodforecast-login',
       },
       {
-        source: '/cmflood/:path*',
+        source: '/chiangmai/cmflood/:path*',
         destination: '/:path*',
       },
     ]

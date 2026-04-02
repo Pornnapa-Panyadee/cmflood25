@@ -52,7 +52,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/cmflood/floodmap">
+              <Link href="/chiangmai/cmflood/floodmap">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -69,7 +69,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/cmflood/pole2025">
+              <Link href="/chiangmai/cmflood/pole2025">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -86,7 +86,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/cmflood/floodmark">
+              <Link href="/chiangmai/cmflood/floodmark">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -103,7 +103,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/cmflood/flooddepth">
+              <Link href="/chiangmai/cmflood/flooddepth">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -121,7 +121,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/cmflood/floodforecast">
+              <Link href="/chiangmai/cmflood/floodforecast">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -138,7 +138,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/cmflood">
+              <Link href="/chiangmai/cmflood">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>

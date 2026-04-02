@@ -146,7 +146,7 @@ export default function Floodmap() {
         </div>
         <div className="md:col-span-4 flex justify-end mb-4">
           <Link
-            href="/cmflood/floodmap"
+            href="/chiangmai/cmflood/floodmap"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex"

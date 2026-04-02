@@ -11,7 +11,7 @@ export default async function FloodForecastLoginPage() {
   const sessionValue = cookieStore.get(getFloodForecastSessionCookieName())?.value
 
   if (verifyFloodForecastSessionValue(sessionValue)) {
-    redirect("/cmflood/floodforecast")
+    redirect("/chiangmai/cmflood/floodforecast")
   }
 
   return <FloodForecastLoginClient />
