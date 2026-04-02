@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server"
-import { createSessionValue, getSessionCookieName, getSessionMaxAge, isValidLogin } from "@/lib/auth"
+import {
+  createFloodForecastSessionValue,
+  getFloodForecastSessionCookieName,
+  getFloodForecastSessionMaxAge,
+  isValidFloodForecastLogin,
+} from "@/lib/floodforecast-auth"
 
 export async function POST(request: Request) {
   try {
@@ -9,19 +14,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "ข้อมูลไม่ถูกต้อง" }, { status: 400 })
     }
 
-    if (!isValidLogin(username, passwordHash)) {
+    if (!isValidFloodForecastLogin(username.trim(), passwordHash)) {
       return NextResponse.json({ error: "Username หรือ Password ไม่ถูกต้อง" }, { status: 401 })
     }
 
     const response = NextResponse.json({ ok: true })
     response.cookies.set({
-      name: getSessionCookieName(),
-      value: createSessionValue(username),
+      name: getFloodForecastSessionCookieName(),
+      value: createFloodForecastSessionValue(username.trim()),
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
       path: "/",
-      maxAge: getSessionMaxAge(),
+      maxAge: getFloodForecastSessionMaxAge(),
     })
 
     return response

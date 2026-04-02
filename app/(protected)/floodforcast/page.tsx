@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Header } from "@/components/Header";
+import { FloodForecastLoginDialog } from "@/components/FloodForecastLoginDialog";
 import { WaterLevelChart } from "@/components/WaterLevelChart";
 import { ModelSelector } from "@/components/ModelSelector";
 import { InputDataEditor } from "@/components/InputDataEditor";
@@ -29,6 +30,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function Index() {
   const { toast } = useToast();
+  const [authStatus, setAuthStatus] = useState<"checking" | "authenticated" | "unauthenticated">("checking");
 
   const [waterData, setWaterData] = useState<WaterLevelData[]>([]);
   const [b9Data, setB9Data] = useState<WaterLevelData[]>([]);
@@ -48,9 +50,31 @@ export default function Index() {
   } | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
 
+  const checkAuth = useCallback(async () => {
+    try {
+      const response = await fetch("/api/floodforecast/session", {
+        cache: "no-store",
+      });
+      const data = await response.json();
+      setAuthStatus(data.authenticated ? "authenticated" : "unauthenticated");
+    } catch {
+      setAuthStatus("unauthenticated");
+    }
+  }, []);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   // Load P1 data + B9 + C9
   useEffect(() => {
+    if (authStatus !== "authenticated") {
+      setIsLoading(false);
+      return;
+    }
+
     async function loadData() {
+      setIsLoading(true);
       try {
         const [r68, rB9, rC9, rC12, rB12, r68real] = await Promise.all([
           fetch("/data_prediction/P1_68.csv"),
@@ -93,7 +117,7 @@ export default function Index() {
       }
     }
     loadData();
-  }, [toast]);
+  }, [authStatus, toast]);
 
   // Load input data when model changes
   const loadInputData = useCallback(
@@ -171,12 +195,15 @@ export default function Index() {
     }
   };
 
-  if (isLoading) {
+  if (authStatus === "checking" || (authStatus === "authenticated" && isLoading)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="flex items-center gap-3 text-muted-foreground">
-          <Loader2 className="w-6 h-6 animate-spin" />
-          <span>กำลังโหลดข้อมูล...</span>
+      <div className="min-h-screen bg-background">
+        <Header showLogout={authStatus === "authenticated"} />
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <div className="flex items-center gap-3 text-muted-foreground">
+            <Loader2 className="w-6 h-6 animate-spin" />
+            <span>กำลังโหลดข้อมูล...</span>
+          </div>
         </div>
       </div>
     );
@@ -184,7 +211,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header showLogout={authStatus === "authenticated"} />
 
       <main className="container mx-auto px-4 py-8 space-y-8">
         <Card className="glass-card">
@@ -290,6 +317,10 @@ export default function Index() {
           </div>
         </section>
       </main>
+
+      {authStatus === "unauthenticated" ? (
+        <FloodForecastLoginDialog onSuccess={() => setAuthStatus("authenticated")} />
+      ) : null}
     </div>
   );
 }

@@ -337,8 +337,8 @@ export function WaterLevelChart({
               type="monotone"
               dataKey="b9Level"
               stroke="hsl(var(--chart-prediction))"
-              strokeWidth={3}
-              strokeDasharray="8 4"
+              strokeWidth={2}
+              strokeDasharray="4 4"
               connectNulls
               dot={false}
               animationDuration={500}
@@ -349,8 +349,8 @@ export function WaterLevelChart({
               type="monotone"
               dataKey="c9Level"
               stroke="hsl(var(--chart-c9))"   // ← สีใหม่
-              strokeWidth={3}
-              strokeDasharray="8 4"          
+              strokeWidth={2}
+              strokeDasharray="4 4"          
               connectNulls
               dot={false}
               animationDuration={500}
@@ -360,8 +360,8 @@ export function WaterLevelChart({
               type="monotone"
               dataKey="c12Level"
               stroke="hsl(var(--chart-c12))"  
-              strokeWidth={3}
-              strokeDasharray="8 4"        
+              strokeWidth={2}
+              strokeDasharray="4 4"        
               connectNulls
               dot={false}
               animationDuration={500}
@@ -371,8 +371,8 @@ export function WaterLevelChart({
               type="monotone"
               dataKey="b12Level"
               stroke="hsl(var(--chart-b12))"  
-              strokeWidth={3}
-              strokeDasharray="8 4"          
+              strokeWidth={2}
+              strokeDasharray="4 4"          
               connectNulls
               dot={false}
               animationDuration={500}
@@ -395,7 +395,7 @@ export function WaterLevelChart({
               type="monotone"
               dataKey="predictionLevel"
               stroke="hsl(var(--chart-prediction))"
-              strokeWidth={3}
+              strokeWidth={2}
               strokeDasharray="8 4"
               connectNulls
               animationDuration={500}
@@ -410,7 +410,7 @@ export function WaterLevelChart({
                         r={8}
                         fill="hsl(var(--chart-prediction))"
                         stroke="hsl(var(--background))"
-                        strokeWidth={3}
+                        strokeWidth={2}
                       />
                       <circle
                         cx={cx}

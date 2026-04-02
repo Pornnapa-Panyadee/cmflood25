@@ -2,16 +2,23 @@ import "server-only"
 
 import { createHmac, timingSafeEqual } from "crypto"
 
-const SESSION_COOKIE_NAME = "cmflood_session"
+const SESSION_COOKIE_NAME = "cmflood_floodforecast_session"
 const SESSION_DURATION_SECONDS = 60 * 60 * 12
 
 function getAuthConfig() {
-  const username = process.env.LOGIN_USER?.trim() || process.env.NEXT_PUBLIC_LOGIN_USER?.trim()
-  const passwordHash = process.env.LOGIN_HASH?.trim() || process.env.NEXT_PUBLIC_LOGIN_HASH?.trim()
-  const sessionSecret = process.env.SESSION_SECRET?.trim()
+  const username =
+    process.env.FLOODFORECAST_LOGIN_USER?.trim() ||
+    process.env.LOGIN_USER?.trim() ||
+    process.env.NEXT_PUBLIC_LOGIN_USER?.trim()
+  const passwordHash =
+    process.env.FLOODFORECAST_LOGIN_HASH?.trim() ||
+    process.env.LOGIN_HASH?.trim() ||
+    process.env.NEXT_PUBLIC_LOGIN_HASH?.trim()
+  const sessionSecret =
+    process.env.FLOODFORECAST_SESSION_SECRET?.trim() || process.env.SESSION_SECRET?.trim()
 
   if (!username || !passwordHash || !sessionSecret) {
-    throw new Error("Missing auth environment variables")
+    throw new Error("Missing flood forecast auth environment variables")
   }
 
   return { username, passwordHash, sessionSecret }
@@ -21,27 +28,27 @@ function createSignature(value: string, secret: string) {
   return createHmac("sha256", secret).update(value).digest("hex")
 }
 
-export function getSessionCookieName() {
+export function getFloodForecastSessionCookieName() {
   return SESSION_COOKIE_NAME
 }
 
-export function getSessionMaxAge() {
+export function getFloodForecastSessionMaxAge() {
   return SESSION_DURATION_SECONDS
 }
 
-export function isValidLogin(username: string, passwordHash: string) {
+export function isValidFloodForecastLogin(username: string, passwordHash: string) {
   const config = getAuthConfig()
   return username === config.username && passwordHash === config.passwordHash
 }
 
-export function createSessionValue(username: string) {
+export function createFloodForecastSessionValue(username: string) {
   const config = getAuthConfig()
   const payload = `${username}:${Date.now()}`
   const signature = createSignature(payload, config.sessionSecret)
   return `${payload}.${signature}`
 }
 
-export function verifySessionValue(sessionValue?: string | null) {
+export function verifyFloodForecastSessionValue(sessionValue?: string | null) {
   if (!sessionValue) return false
 
   const config = getAuthConfig()

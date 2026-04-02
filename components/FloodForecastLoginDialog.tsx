@@ -1,12 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 
-export default function LoginClient() {
-  const router = useRouter()
+type FloodForecastLoginDialogProps = {
+  onSuccess: () => void
+}
+
+export function FloodForecastLoginDialog({ onSuccess }: FloodForecastLoginDialogProps) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -20,7 +22,7 @@ export default function LoginClient() {
     try {
       const normalizedUsername = username.trim()
       const passwordHash = await hashPassword(password)
-      const response = await fetch("/api/login", {
+      const response = await fetch("/api/floodforecast/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,8 +37,7 @@ export default function LoginClient() {
         return
       }
 
-      router.replace("/home")
-      router.refresh()
+      onSuccess()
     } catch {
       setError("เกิดข้อผิดพลาดในการเข้าสู่ระบบ")
     }
@@ -44,56 +45,56 @@ export default function LoginClient() {
     setIsLoading(false)
   }
 
-  async function hashPassword(password: string) {
+  async function hashPassword(passwordValue: string) {
     const encoder = new TextEncoder()
-    const data = encoder.encode(password)
+    const data = encoder.encode(passwordValue)
     const hashBuffer = await crypto.subtle.digest("SHA-256", data)
     const hashArray = Array.from(new Uint8Array(hashBuffer))
     return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md p-8 shadow-lg bg-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/35 p-4 backdrop-blur-sm">
+      <Card className="w-full max-w-md bg-white p-8 shadow-xl">
         <div className="space-y-6">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-800">เข้าสู่ระบบ</h1>
-            <p className="text-gray-500 mt-2">ระบบติดตามข้อมูลน้ำท่วม CMU Flood 2025</p>
+            <h2 className="text-3xl font-bold text-gray-800">เข้าสู่ระบบ</h2>
+            <p className="mt-2 text-gray-500">กรุณาเข้าสู่ระบบก่อนใช้งานระบบพยากรณ์ระดับน้ำ P1</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+            {error ? (
+              <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
                 {error}
               </div>
-            )}
+            ) : null}
 
             <div className="space-y-2">
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="forecast-username" className="block text-sm font-medium text-gray-700">
                 Username
               </label>
               <input
-                id="username"
+                id="forecast-username"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="watercenter"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 disabled={isLoading}
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="forecast-password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
-                id="password"
+                id="forecast-password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 disabled={isLoading}
               />
             </div>

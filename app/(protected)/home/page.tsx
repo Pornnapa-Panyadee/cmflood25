@@ -52,7 +52,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/floodmap">
+              <Link href="/cmflood/floodmap">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -69,7 +69,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/pole2025">
+              <Link href="/cmflood/pole2025">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -86,7 +86,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/floodmark">
+              <Link href="/cmflood/floodmark">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -103,7 +103,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/floodInterpolation">
+              <Link href="/cmflood/flooddepth">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -121,7 +121,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/prediction-P1">
+              <Link href="/cmflood/floodforecast">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>
@@ -138,7 +138,7 @@ export default function HomePage() {
               <MapPin className="h-16 w-16 text-primary" />
             </div>
             <CardContent>
-              <Link href="/">
+              <Link href="/cmflood">
                 <Button className="w-full m-[10px]">ดูรายละเอียด</Button>
               </Link>
             </CardContent>

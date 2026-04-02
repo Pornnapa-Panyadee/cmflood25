@@ -73,7 +73,7 @@ export default function CnxTif() {
 
         const popupContent = `
           <div style="text-align:left;font-family:'Prompt',sans-serif;">
-            <h2 style="margin:6px 0;color:#0070f3;"><b>หมายเลขหลัก: ${poleId}</b></h2>
+            <h2 style="margin:6px 0;color:#0070f3;"><b>หมายเลขหลัก: ${poleId} </b></h2>
             <h3 style="margin:4px 0;">บริเวณที่ตั้ง: ${poleName}</h3>
             <p style="margin:4px 0;">ระดับน้ำท่วม: ${floodLevel} ซม.</p>
             <p style="margin:4px 0;">โครงสร้างที่ทำเครื่องหมาย: ${tool}</p>
