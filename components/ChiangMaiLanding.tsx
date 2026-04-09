@@ -91,7 +91,7 @@ export function ChiangMaiLanding() {
           </Link>
 
           <Link
-            href="/chiangmai"
+            href="/chiangmai/blueprint"
             className="block rounded-3xl border border-blue-100 bg-white/90 p-8 shadow-[0_24px_80px_-32px_rgba(37,99,235,0.35)] backdrop-blur transition-all hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50/90 hover:shadow-[0_28px_90px_-32px_rgba(37,99,235,0.42)] hover:ring-4 hover:ring-blue-100"
           >
             <div className="mb-5 h-1.5 w-20 rounded-full bg-blue-500" />
