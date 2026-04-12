@@ -97,7 +97,7 @@ export default function CnxTif() {
       } catch {}
 
       // ---------- Raster loader ----------
-      async function loadRaster(url: string, type: "blue" | "blue2" | "zone") {
+      async function loadRaster(url: string, type: "blue" | "zone" | "msl") {
         const res = await fetch(url)
         const buf = await res.arrayBuffer()
         const tiff = await fromArrayBuffer(buf)
@@ -118,6 +118,17 @@ export default function CnxTif() {
             } else {
               const t = (norm - 0.66) / 0.34
               return [Math.floor(0*(1-t)+10*t), Math.floor(30*(1-t)+20*t), Math.floor(130*(1-t)+80*t)]
+            }
+          } else if (type === "msl") {
+            if (norm < 0.33) {
+              const t = norm / 0.33
+              return [Math.floor(235 * (1 - t) + 120 * t), Math.floor(246 * (1 - t) + 185 * t), Math.floor(255 * (1 - t) + 248 * t)]
+            } else if (norm < 0.66) {
+              const t = (norm - 0.33) / 0.33
+              return [Math.floor(120 * (1 - t) + 15 * t), Math.floor(185 * (1 - t) + 85 * t), Math.floor(248 * (1 - t) + 190 * t)]
+            } else {
+              const t = (norm - 0.66) / 0.34
+              return [Math.floor(15 * (1 - t) + 1 * t), Math.floor(85 * (1 - t) + 32 * t), Math.floor(190 * (1 - t) + 105 * t)]
             }
           } else {
             if (val <= 40) return [51, 255, 55]
@@ -171,12 +182,13 @@ export default function CnxTif() {
       // ])
       // if (!blueMap || !blueMap2 || !zoneMap) return
 
-      const [blueMap, zoneMap] = await Promise.all([
+      const [blueMap, zoneMap, mslMap] = await Promise.all([
         loadRaster("/data/IDW_FloodV6_without0clip.tif", "blue"),
         loadRaster("/data/IDW_FloodV6_Con30clip.tif", "zone"),
+        loadRaster("/data/IDW_FloodV8_MSL_Clip.tif", "msl"),
         //loadRaster("/data/Idw_Fl2clip.tif", "zone"),
       ])
-      if (!blueMap || !zoneMap) return
+      if (!blueMap || !zoneMap || !mslMap) return
 
       // ---------- Layer controls ----------
       const baseLayers = {
@@ -189,12 +201,13 @@ export default function CnxTif() {
 
       const overlays = {
         "แผนที่ความลึกน้ำท่วม": blueMap.rasterLayer,
+        "แผนที่ระดับความลึก (ม.รทก.)": mslMap.rasterLayer,
         // "แผนที่ความลึกน้ำท่วม (เพิ่ม 0)": blueMap2.rasterLayer,
         "แผนที่ช่วงความลึกน้ำท่วม": zoneMap.rasterLayer,
       }
 
       blueMap.rasterLayer.addTo(map)
-      const rasterCtl = L.control.layers(overlays, {}, { collapsed: true }).addTo(map)
+      L.control.layers(overlays, {}, { collapsed: true }).addTo(map)
 
       const infra: Record<string, L.Layer> = {}
       if (pingRiver) infra["เส้นทางน้ำ"] = pingRiver
@@ -211,6 +224,11 @@ export default function CnxTif() {
         <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:-20px;">
           <span>0</span><span>150</span><span>300</span>
         </div>`
+      const mslLegend = `<b>แผนที่ระดับความลึก (ม.รทก.)</b><br/>
+        <canvas id="grad-msl" width="120" height="10"></canvas><br/>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:-20px;">
+          <span>${mslMap.min.toFixed(2)}</span><span>${((mslMap.min + mslMap.max) / 2).toFixed(2)}</span><span>${mslMap.max.toFixed(2)}</span>
+        </div>`
       const zoneLegend = `<b>ช่วงความลึกน้ำท่วม (ซม.)</b><br/>
         <div style="display:flex;flex-direction:column;gap:2px;font-size:11px;">
           <div><span style="background:#33ff33;width:20px;height:8px;display:inline-block;margin-right:4px;"></span>0–40</div>
@@ -221,30 +239,61 @@ export default function CnxTif() {
         </div>`
       legend.onAdd = () => {
         const div = L.DomUtil.create("div", "info legend bg-white p-2 rounded shadow")
-        div.innerHTML = gradientLegend + zoneLegend
+        div.innerHTML = gradientLegend
         return div
       }
       legend.addTo(map)
 
-      function drawGradient() {
-        const c = document.getElementById("grad") as HTMLCanvasElement | null
+      function drawGradient(id: string, stops: Array<[number, string]>) {
+        const c = document.getElementById(id) as HTMLCanvasElement | null
         if (!c) return
         const ctx2 = c.getContext("2d")!
         const grad = ctx2.createLinearGradient(0, 0, 120, 0)
-        grad.addColorStop(0, "#A8D8FF")
-        grad.addColorStop(0.33, "#3399FF")
-        grad.addColorStop(0.66, "#0044CC")
-        grad.addColorStop(1, "#001133")
+        for (const [offset, color] of stops) {
+          grad.addColorStop(offset, color)
+        }
         ctx2.fillStyle = grad
         ctx2.fillRect(0, 0, 120, 10)
+      }
+
+      function getActiveRaster() {
+        if (map.hasLayer(mslMap.rasterLayer)) return "msl"
+        if (map.hasLayer(zoneMap.rasterLayer) && !map.hasLayer(blueMap.rasterLayer)) return "zone"
+        return "blue"
       }
 
       function updateLegend() {
         const container = legend.getContainer()
         if (!container) return
-        const showZone = map.hasLayer(zoneMap.rasterLayer)
-        container.innerHTML = showZone ? zoneLegend : gradientLegend + zoneLegend
-        if (!showZone) setTimeout(drawGradient, 0)
+        const activeRaster = getActiveRaster()
+
+        if (activeRaster === "zone") {
+          container.innerHTML = zoneLegend
+          return
+        }
+
+        if (activeRaster === "msl") {
+          container.innerHTML = mslLegend
+          setTimeout(() => {
+            drawGradient("grad-msl", [
+              [0, "#eef8ff"],
+              [0.33, "#77baff"],
+              [0.66, "#0d5fd0"],
+              [1, "#00144d"],
+            ])
+          }, 0)
+          return
+        }
+
+        container.innerHTML = gradientLegend
+        setTimeout(() => {
+          drawGradient("grad", [
+            [0, "#A8D8FF"],
+            [0.33, "#3399FF"],
+            [0.66, "#0044CC"],
+            [1, "#001133"],
+          ])
+        }, 0)
       }
 
       updateLegend()
@@ -253,24 +302,34 @@ export default function CnxTif() {
         if (e.layer === blueMap.rasterLayer) {
           //if (map.hasLayer(blueMap2.rasterLayer)) map.removeLayer(blueMap2.rasterLayer)
           if (map.hasLayer(zoneMap.rasterLayer)) map.removeLayer(zoneMap.rasterLayer)
+          if (map.hasLayer(mslMap.rasterLayer)) map.removeLayer(mslMap.rasterLayer)
         // } else if (e.layer === blueMap2.rasterLayer) {
         //   if (map.hasLayer(blueMap.rasterLayer)) map.removeLayer(blueMap.rasterLayer)
         //   if (map.hasLayer(zoneMap.rasterLayer)) map.removeLayer(zoneMap.rasterLayer)
         } else if (e.layer === zoneMap.rasterLayer) {
           if (map.hasLayer(blueMap.rasterLayer)) map.removeLayer(blueMap.rasterLayer)
           //if (map.hasLayer(blueMap2.rasterLayer)) map.removeLayer(blueMap2.rasterLayer)
+          if (map.hasLayer(mslMap.rasterLayer)) map.removeLayer(mslMap.rasterLayer)
+        } else if (e.layer === mslMap.rasterLayer) {
+          if (map.hasLayer(blueMap.rasterLayer)) map.removeLayer(blueMap.rasterLayer)
+          if (map.hasLayer(zoneMap.rasterLayer)) map.removeLayer(zoneMap.rasterLayer)
         }
         updateLegend()
       })
 
       map.on("overlayremove", (e: any) => {
-        if (e.layer === blueMap.rasterLayer || e.layer === zoneMap.rasterLayer) updateLegend()
+        if (
+          e.layer === blueMap.rasterLayer ||
+          e.layer === zoneMap.rasterLayer ||
+          e.layer === mslMap.rasterLayer
+        ) updateLegend()
       })
 
       // ---------- Popup ----------
       map.on("click", async (e: L.LeafletMouseEvent) => {
-        const active =
-          map.hasLayer(zoneMap.rasterLayer) && !map.hasLayer(blueMap.rasterLayer)
+        const active = map.hasLayer(mslMap.rasterLayer)
+          ? mslMap
+          : map.hasLayer(zoneMap.rasterLayer) && !map.hasLayer(blueMap.rasterLayer)
             ? zoneMap
             : blueMap
         const { image, width, height, bbox } = active
@@ -282,12 +341,13 @@ export default function CnxTif() {
         const px = await image.readRasters({ window: [x, y, x + 1, y + 1] })
         const val = (px as TypedArray[])[0][0]
         if (val > -1e30 && !isNaN(val as any)) {
+          const isMsl = active === mslMap
           L.popup()
             .setLatLng(e.latlng)
             .setContent(
               `<div style="font-family:'Prompt',sans-serif;line-height:1.4;">
-                 <b>ค่าความลึกน้ำท่วม:</b>
-                 <span style="color:blue;font-size:16px;font-weight:500;">${(+val).toFixed(0)} ซม.</span>
+                 <b>${isMsl ? "ค่าระดับความลึก" : "ค่าความลึกน้ำท่วม"}:</b>
+                 <span style="color:blue;font-size:16px;font-weight:500;">${isMsl ? (+val).toFixed(2) : (+val).toFixed(0)} ${isMsl ? "ม.รทก." : "ซม."}</span>
                </div>`
             )
             .openOn(map)
